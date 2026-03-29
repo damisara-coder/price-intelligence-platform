@@ -1,0 +1,26 @@
+# Secret files — NEVER upload these to GitHub
+.env
+credentials.json
+*.key
+service-account*.json
+
+# Python junk
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Terraform files
+.terraform/
+*.tfstate
+*.tfstate.backup
+
+# Docker
+.docker/
+
+# Mac system files
+.DS_Store
+
+# Windows system files
+Thumbs.db
