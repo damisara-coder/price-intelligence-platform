@@ -5,14 +5,14 @@ from datetime import datetime
 class JumiaSpider(scrapy.Spider):
     name = "jumia"
     allowed_domains = ["jumia.ma"]
-    LIMIT_PER_CATEGORY = 200
+    LIMIT_PER_CATEGORY = 250
 
     categories = {
-    "smartphones": "https://www.jumia.ma/telephone-tablette/?page=1#catalog-listing",
-    "laptops":     "https://www.jumia.ma/ordinateurs-pc/?page=1#catalog-listing",
-    "tv":          "https://www.jumia.ma/tvs/?page=1#catalog-listing",
-    "vetements":   "https://www.jumia.ma/vetements-femme/?page=1#catalog-listing",
-}
+        "smartphones": "https://www.jumia.ma/telephone-tablette/?page=1#catalog-listing",
+        "laptops":     "https://www.jumia.ma/ordinateurs-pc/?page=1#catalog-listing",
+        "tv":          "https://www.jumia.ma/tvs/?page=1#catalog-listing",
+        "vetements":   "https://www.jumia.ma/vetements-femme/?page=1#catalog-listing",
+    }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -32,7 +32,7 @@ class JumiaSpider(scrapy.Spider):
         page     = response.meta["page"]
 
         products = response.css("article.prd")
-        
+
         self.logger.info(f"[{category}] Page {page} — {len(products)} produits trouvés")
 
         for product in products:
@@ -40,7 +40,11 @@ class JumiaSpider(scrapy.Spider):
                 return
 
             item = ProductItem()
-            item["name"]      = product.css("h3.name::text").get(default="").strip()
+
+            # ✅ Nom depuis data-gtm-name (sélecteur corrigé)
+            item["name"]      = product.css("a.core::attr(data-gtm-name)").get(default="").strip()
+
+            # ✅ Prix depuis div.prc (ex: "949.00 Dhs")
             item["price"]     = product.css("div.prc::text").get(default="").strip()
             item["category"]  = category
             item["source"]    = "jumia"
@@ -50,9 +54,9 @@ class JumiaSpider(scrapy.Spider):
             self.counts[category] += 1
             yield item
 
-        self.logger.info(f"[{category}] Total jusqu'ici : {self.counts[category]}/200")
+        self.logger.info(f"[{category}] Total jusqu'ici : {self.counts[category]}/250")
 
-        # ✅ Passer à la page suivante manuellement
+        # ✅ Passer à la page suivante si on n'a pas encore 250
         if self.counts[category] < self.LIMIT_PER_CATEGORY and len(products) > 0:
             next_page_num = page + 1
             next_url = f"https://www.jumia.ma{response.url.split('jumia.ma')[1].split('?')[0]}?page={next_page_num}#catalog-listing"
