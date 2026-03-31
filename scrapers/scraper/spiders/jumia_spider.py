@@ -2,16 +2,15 @@ import scrapy
 from scraper.items import ProductItem
 from datetime import datetime
 
-class JumiaSpider(scrapy.Spider):
-    name = "jumia"
-    allowed_domains = ["jumia.ma"]
-    LIMIT_PER_CATEGORY = 250
+class MicromagmaSpider(scrapy.Spider):
+    name = "micromagma"
+    allowed_domains = ["micromagma.ma"]
+    LIMIT_PER_CATEGORY = 300
 
     categories = {
-        "smartphones": "https://www.jumia.ma/telephone-tablette/?page=1#catalog-listing",
-        "laptops":     "https://www.jumia.ma/ordinateurs-pc/?page=1#catalog-listing",
-        "tv":          "https://www.jumia.ma/tvs/?page=1#catalog-listing",
-        "vetements":   "https://www.jumia.ma/vetements-femme/?page=1#catalog-listing",
+        "smartphones": "https://micromagma.ma/smartphones",
+        "laptops":     "https://micromagma.ma/laptops",
+        "tv":          "https://micromagma.ma/tv",
     }
 
     def __init__(self, *args, **kwargs):
@@ -31,7 +30,7 @@ class JumiaSpider(scrapy.Spider):
         category = response.meta["category"]
         page     = response.meta["page"]
 
-        products = response.css("article.prd")
+        products = response.css("a[href*='/item/']")
 
         self.logger.info(f"[{category}] Page {page} — {len(products)} produits trouvés")
 
@@ -39,31 +38,42 @@ class JumiaSpider(scrapy.Spider):
             if self.counts[category] >= self.LIMIT_PER_CATEGORY:
                 return
 
+            # ✅ Nom
+            name = product.css("p.css-1vkdkjv::text").get(default="").strip()
+
+            # ✅ Ignorer si nom vide
+            if not name:
+                continue
+
             item = ProductItem()
-
-            # ✅ Nom depuis data-gtm-name (sélecteur corrigé)
-            item["name"]      = product.css("a.core::attr(data-gtm-name)").get(default="").strip()
-
-            # ✅ Prix depuis div.prc (ex: "949.00 Dhs")
-            item["price"]     = product.css("div.prc::text").get(default="").strip()
+            item["name"]      = name
+            item["price"]     = product.css("p.css-j7ldfz::text").get(default="").strip()
             item["category"]  = category
-            item["source"]    = "jumia"
-            item["url"]       = "https://www.jumia.ma" + product.css("a.core::attr(href)").get(default="")
+            item["source"]    = "micromagma"
+            item["url"]       = "https://micromagma.ma" + product.attrib.get("href", "")
             item["timestamp"] = datetime.utcnow().isoformat()
 
             self.counts[category] += 1
             yield item
 
-        self.logger.info(f"[{category}] Total jusqu'ici : {self.counts[category]}/250")
+        self.logger.info(f"[{category}] Total: {self.counts[category]}/300")
 
-        # ✅ Passer à la page suivante si on n'a pas encore 250
-        if self.counts[category] < self.LIMIT_PER_CATEGORY and len(products) > 0:
-            next_page_num = page + 1
-            next_url = f"https://www.jumia.ma{response.url.split('jumia.ma')[1].split('?')[0]}?page={next_page_num}#catalog-listing"
-            self.logger.info(f"[{category}] → Page {next_page_num}")
+        # ✅ Pagination — s'arrête si :
+        # 1. On a atteint 300 produits
+        # 2. La page est vide
+        # 3. Moins de 20 produits (dernière page)
+        if (self.counts[category] < self.LIMIT_PER_CATEGORY
+                and len(products) >= 20):
+            next_page = page + 1
+            next_url = f"{self.categories[category]}?page={next_page}"
+            self.logger.info(f"[{category}] → Page {next_page}")
             yield scrapy.Request(
                 url=next_url,
                 callback=self.parse,
-                meta={"category": category, "page": next_page_num},
+                meta={"category": category, "page": next_page},
                 dont_filter=True
+            )
+        else:
+            self.logger.info(
+                f"[{category}] Terminé — {self.counts[category]} produits collectés"
             )
