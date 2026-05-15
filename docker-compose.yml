@@ -15,6 +15,8 @@ services:
     container_name: nifi
     ports:
       - "8080:8080"
+    environment:
+      NIFI_WEB_HTTP_PORT: 8080
     volumes:
       - nifi-data:/opt/nifi/nifi-current/data
     networks:
@@ -34,22 +36,27 @@ services:
       - pipeline-network
     restart: unless-stopped
 
+  airflow-init:
+    image: apache/airflow:2.9.0
+    container_name: airflow-init
+    depends_on:
+      - airflow-db
+    environment:
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@airflow-db/airflow
+    entrypoint: bash -c "airflow db init && airflow users create --username admin --password admin --firstname admin --lastname admin --role Admin --email admin@test.com"
+    networks:
+      - pipeline-network
+
   airflow-webserver:
     image: apache/airflow:2.9.0
     container_name: airflow-webserver
     depends_on:
-      - airflow-db
+      - airflow-init
     ports:
       - "8081:8080"
     environment:
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@airflow-db/airflow
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
-      _AIRFLOW_DB_UPGRADE: 'true'
-      _AIRFLOW_WWW_USER_CREATE: 'true'
-      _AIRFLOW_WWW_USER_USERNAME: admin
-      _AIRFLOW_WWW_USER_PASSWORD: admin
-    volumes:
-      - ./airflow/dags:/opt/airflow/dags
     command: webserver
     networks:
       - pipeline-network
@@ -59,12 +66,10 @@ services:
     image: apache/airflow:2.9.0
     container_name: airflow-scheduler
     depends_on:
-      - airflow-db
+      - airflow-init
     environment:
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@airflow-db/airflow
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
-    volumes:
-      - ./airflow/dags:/opt/airflow/dags
     command: scheduler
     networks:
       - pipeline-network
