@@ -1,0 +1,29 @@
+[0m20:11:20.810336 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002C621A8EC90>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002C6250236D0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002C621A8EC50>]}
+
+
+============================== 20:11:20.822742 | 0a963015-5e10-4c7e-88c4-fd99fb6b8d6c ==============================
+[0m20:11:20.822742 [info ] [MainThread]: Running with dbt=1.11.10
+[0m20:11:20.825773 [debug] [MainThread]: running dbt with arguments {'version_check': 'True', 'no_print': 'None', 'static_parser': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'printer_width': '80', 'write_json': 'True', 'introspect': 'True', 'log_cache_events': 'False', 'empty': 'None', 'cache_selected_only': 'False', 'fail_fast': 'False', 'debug': 'False', 'log_format': 'default', 'profiles_dir': 'C:\\Users\\hp\\.dbt', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'partial_parse': 'True', 'invocation_command': 'dbt init dbt_ecommerce', 'indirect_selection': 'eager', 'use_colors': 'True', 'use_experimental_parser': 'False', 'log_path': 'logs'}
+[0m20:11:20.904231 [debug] [MainThread]: Starter project path: C:\Users\hp\.conda\envs\scraping_project\Lib\site-packages\dbt\include\starter_project
+[0m20:11:21.130341 [info ] [MainThread]: 
+Your new dbt project "dbt_ecommerce" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m20:11:21.138519 [info ] [MainThread]: Setting up your profile.
+[0m20:12:35.674330 [info ] [MainThread]: Profile dbt_ecommerce written to C:\Users\hp\.dbt\profiles.yml using target's profile_template.yml and your supplied values. Run 'dbt debug' to validate the connection.
+[0m20:12:35.684625 [debug] [MainThread]: Command `dbt init` succeeded at 20:12:35.683599 after 75.28 seconds
+[0m20:12:35.686887 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002C626346710>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002C61E852450>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002C62637A290>]}
+[0m20:12:35.689256 [debug] [MainThread]: Flushing usage events
+[0m20:12:36.811082 [debug] [MainThread]: An error was encountered while trying to flush usage events
