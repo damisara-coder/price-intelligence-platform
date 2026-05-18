@@ -7,6 +7,7 @@ networks:
 volumes:
   postgres-data:
   nifi-data:
+  scraper-data:
 
 services:
 
@@ -23,6 +24,18 @@ services:
       - pipeline-network
     restart: unless-stopped
 
+  scraper:
+    build:
+      context: ./scrapers
+      dockerfile: Dockerfile
+    container_name: scraper
+    volumes:
+      - scraper-data:/app/data
+    networks:
+      - pipeline-network
+    # Does not restart automatically — run on demand or via Airflow DAG
+    restart: "no"
+
   airflow-db:
     image: postgres:15
     container_name: airflow-db
@@ -37,7 +50,9 @@ services:
     restart: unless-stopped
 
   airflow-init:
-    image: apache/airflow:2.9.0
+    build:
+      context: ./airflow
+      dockerfile: Dockerfile
     container_name: airflow-init
     depends_on:
       - airflow-db
@@ -48,7 +63,9 @@ services:
       - pipeline-network
 
   airflow-webserver:
-    image: apache/airflow:2.9.0
+    build:
+      context: ./airflow
+      dockerfile: Dockerfile
     container_name: airflow-webserver
     depends_on:
       - airflow-init
@@ -57,19 +74,25 @@ services:
     environment:
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@airflow-db/airflow
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
     command: webserver
     networks:
       - pipeline-network
     restart: unless-stopped
 
   airflow-scheduler:
-    image: apache/airflow:2.9.0
+    build:
+      context: ./airflow
+      dockerfile: Dockerfile
     container_name: airflow-scheduler
     depends_on:
       - airflow-init
     environment:
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@airflow-db/airflow
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
     command: scheduler
     networks:
       - pipeline-network
