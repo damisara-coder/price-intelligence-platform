@@ -73,7 +73,7 @@ class ZaraSpider(scrapy.Spider):
                         continue
 
                     # ✅ URL produit
-                    reference = component.get("reference", "")
+                
                     product_id = component.get("id", "")
                     url_product = f"https://www.zara.com/ma/fr/-p{str(product_id).zfill(8)}.html"
 
