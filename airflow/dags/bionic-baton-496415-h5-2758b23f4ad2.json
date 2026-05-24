@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "bionic-baton-496415-h5",
+  "private_key_id": "2758b23f4ad2a942760bb1e06f6de29a7ad17ae4",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDXZRXFHHWAkPjc\nFGe6PVr8wEIO1GEXHj1uya8jUhWU8dSguGOjcXJwl1dx51bB/2U+7RQIrPRFzXRJ\nCG+sbPly/5NRPDwyjyl+9QqvCs08dXm6BOERB0M5Y56E9lI5UhCWTtDK30K/pyMp\nbFRE+H3WvD5MoooDyL7jF64E0u9P86Q2lte1ELwV/1/DmX8KdhanvRcZH3rYuBL1\nWEUJ/bLB1WqVVcMI7xv7ppzTy1bzx8DnBljv2X7Cj81u6g7gMn/KipNWsmiC2PTv\nf2LqXPonqs2azbnFbTznJrvyWZiR7+vOW7PlOxWgKP0lEbSekj3cYz1vp/5pIePd\nyktow4KxAgMBAAECggEAGKeP6dt7kadGbP6C7vzl5Mdm6EakBF7oPj2kp+DV6pIR\nugHRGdy68itIjZeixRrkLmM5p1KQtUqylEd8bNqeZOzfIm3IICtl3wvSWL3eRxzV\nPZcgYfAYYEHIW8TMHZaIooPL/2S1wbUyX6PwM2LUGJe8c84pCQzZ2KmVuCSi0t5F\nDy6AHf2BN/TQYBtCSYI1vTKegglxnLgZeUAkjdzsO8GrBsm5iJb/Sg7VdGCk0cwI\nrpN1e43KlELD3UMi+febkDeR10LfyQod+Lioku6Jv4Z2OvhfrAG8VheCMzwei93l\n2hcgiFgOeZdRljboLL/P+fJi5fwfKMR+7YvBVuwnxwKBgQD+n7FJi8g2EijWTETG\n3KUjI0+mLtABGJy4DmiGQgNOBd/+XfMmj8Z/0qxtgGahI6klfvdW53t7G3JQiQtc\nzJxF5cqbhlePvqMKOKlsi+gF6r3gSjSwQAnpHtpn96VaimXxCzG5d6vvv/Rbw7Ax\nRp6chuPphitSqgGKX2hmBwY4DwKBgQDYjx0jH7CIsfwH2ztQ3nAkmChPkX9zzo1d\ne9fy26cfHCon1A0qHyYfdb2cIYOfQeKhZFWC5NlpQz/Qm/xpYi1jctS/xFFkYYUk\nIzeWlwAqwL/AeZSHE5inwa7TAcZAYniRS3dJovbQOvR7yfY5HPKHzGp29uGG4G21\nLFGn3NnZPwKBgQD8e6m2/g7n3xXzeelxL/XoY+llJmJH0/oDYPYwu2C/i3/ToaGs\niUESGvu0EXCzNMNTVRU6bYu6RTsTtPE5cgM8JGLF2W8WMLlHN2x5IDpRM7ZYo/yf\nEMFDEr8L/TtQDpCLdsg12v75W+SY4fDiy94X5II3XD21WLLyXS0OjsSR7QKBgDAw\n6NMAIlDJCsTUzIZaeaorEg1i23Hx7RN4k72/k5kgs2DZl3RgKiOmF+O+sYOnLb+s\njDrsolUCWhkaHTl2V5Nh4mYqUdJ8wRwhmiUwxSC+c+1pINxOSBJMz5K1OmDpiNsM\naCdC1JnSBMXnU5uyDWaa3rZKijVxi/hdPG6WfwQRAoGBAPNDvRZ9MCBu2KGn7rX6\nzbSQ4DadSB84R+pBDyWsghfneyvRdN+063ojPitgefQRAEexvIpUuecFzPxcQiK4\nT8AvDEFMDXlLrpb28c9rzLuQPt9jMU12w3ehd0uUe4Z5jW52NK4P1zxkS1JQP2Wa\nfwccrJMogsFRIzj+RJT0xa17\n-----END PRIVATE KEY-----\n",
+  "client_email": "dbt-airflow@bionic-baton-496415-h5.iam.gserviceaccount.com",
+  "client_id": "101640383717513002952",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/dbt-airflow%40bionic-baton-496415-h5.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

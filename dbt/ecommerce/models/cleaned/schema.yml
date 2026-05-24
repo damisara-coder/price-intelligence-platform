@@ -1,0 +1,70 @@
+version: 2
+
+models:
+  - name: cleaned_prices
+
+    description: >
+      Données dédupliquées, nettoyées et enrichies.
+
+    columns:
+
+      - name: row_key
+        description: "Clé primaire unique"
+        tests:
+          - not_null
+          - unique
+
+      - name: price_mad
+        description: "Prix nettoyé en MAD"
+        tests:
+          - not_null
+
+      - name: category_normalized
+        description: "Catégorie normalisée"
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - smartphones
+                  - electromenager
+                  - informatique
+                  - mode
+                  - tv_audio
+                  - other
+
+      - name: source_platform
+        description: "Plateforme source"
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - jumia
+                  - marjane
+                  - micromagma
+                  - zara
+
+      - name: price_segment
+        description: "Segment de prix"
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - budget
+                  - entry
+                  - mid_range
+                  - high_end
+                  - premium
+                  - unknown
+
+      - name: brand
+        description: "Marque détectée"
+        tests:
+          - not_null
+
+      - name: price_date
+        description: "Date du prix"
+        tests:
+          - not_null

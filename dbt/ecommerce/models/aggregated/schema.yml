@@ -1,0 +1,78 @@
+version: 2
+
+models:
+
+  - name: agg_daily_prices
+
+    description: >
+      Prix moyen journalier par produit et plateforme.
+
+    columns:
+
+      - name: agg_row_key
+        tests:
+          - not_null
+          - unique
+
+      - name: price_date
+        tests:
+          - not_null
+
+      - name: avg_price_mad
+        tests:
+          - not_null
+
+      - name: source_platform
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - jumia
+                  - marjane
+                  - micromagma
+                  - zara
+
+      - name: observation_count
+        tests:
+          - not_null
+
+      - name: is_price_alert
+        tests:
+          - not_null
+
+
+  - name: agg_weekly_category_stats
+
+    description: >
+      Statistiques hebdomadaires par catégorie.
+
+    columns:
+
+      - name: agg_row_key
+        tests:
+          - not_null
+          - unique
+
+      - name: week_start
+        tests:
+          - not_null
+
+      - name: avg_price_mad
+        tests:
+          - not_null
+
+      - name: product_count
+        tests:
+          - not_null
+
+      - name: source_platform
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - jumia
+                  - marjane
+                  - micromagma
+                  - zara

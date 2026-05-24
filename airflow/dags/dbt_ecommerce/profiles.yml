@@ -1,0 +1,11 @@
+ecommerce:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: service-account
+      project: bionic-baton-496415-h5
+      dataset: ecommerce_prices
+      keyfile: /opt/airflow/dags/gcp-credentials.json
+      threads: 1
+      timeout_seconds: 300
