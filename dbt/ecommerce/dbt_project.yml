@@ -34,7 +34,6 @@ models:
       +materialized: table
       +tags: ['aggregated']
 
-
 # Variables globales
 vars:
   min_valid_price: 1
