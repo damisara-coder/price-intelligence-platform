@@ -1,68 +1,76 @@
 name: CI Pipeline
-
 on:
+  workflow_dispatch:
   pull_request:
     branches: [main]
   push:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
   lint:
     name: Lint Python code
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-
       - name: Install flake8
         run: pip install flake8
-
-     - name: Run flake8 on scrapers
-        run: |
-          flake8 scrapers/ \
-            --max-line-length=135 \
-            --exclude=scrapers/data/ \
-            --ignore=E221,E226,W292,E302,W503,E501,W293,E241,E722,F401,F841
+      - name: Run flake8 on scrapers
+        run: flake8 scrapers/ --max-line-length=120 --exclude=scrapers/data/ --ignore=E221,E226,W292,E302,E305,W503,E501
 
       - name: Run flake8 on airflow dags
-        run: |
-          flake8 airflow/dags/ \
-            --max-line-length=135 \
-            --ignore=E501,W503,W293,E241,E722,F401,F841
+        run: flake8 airflow/dags/ --max-line-length=120 --ignore=E221,E226,W292,E302,E305,W503,E501,F401
+
   dbt-test:
     name: Run dbt tests
     runs-on: ubuntu-latest
     needs: lint
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-
       - name: Install dbt-bigquery
         run: pip install dbt-bigquery==1.7.8
-
-      - name: Check dbt project exists
+      - name: Run dbt compile
         run: |
-          if [ -d "dbt_ecommerce" ]; then
-            echo "dbt project found"
+          if [ -d "dbt/ecommerce" ]; then
+            cd dbt/ecommerce && dbt compile --profiles-dir . || echo "skipped"
           else
-            echo "No dbt project yet - skipping"
-            exit 0
+            echo "No dbt project - skipping"
           fi
 
-      - name: Run dbt compile (validates SQL)
-        working-directory: dbt_ecommerce
-        env:
-          DBT_PROFILES_DIR: .
-        run: dbt compile --profiles-dir . || echo "dbt compile skipped"
+  docker-push:
+    name: Build and push Docker images
+    runs-on: ubuntu-latest
+    needs: [lint, dbt-test]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      - name: Install gcloud
+        uses: google-github-actions/setup-gcloud@v2
+      - name: Configure Docker
+        run: gcloud auth configure-docker europe-west1-docker.pkg.dev --quiet
+      - name: Build and push scraper
+        run: |
+          docker build -t europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/price-intelligence/scraper:latest ./scrapers
+          docker push europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/price-intelligence/scraper:latest
+      - name: Build and push airflow
+        run: |
+          docker build -t europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/price-intelligence/airflow:latest ./airflow
+          docker push europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/price-intelligence/airflow:latest
+# CI v2

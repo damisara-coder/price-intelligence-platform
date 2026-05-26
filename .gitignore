@@ -24,3 +24,10 @@ venv/
 
 # Windows system files
 Thumbs.db
+airflow/dags/*.json
+
+infra/terraform/gcp-key.json
+
+infra/terraform/terraform.tfvars
+
+infra/terraform/.terraform.lock.hcl

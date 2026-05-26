@@ -1,0 +1,51 @@
+# =============================================================
+# SCHEMA TESTS: stg_raw_prices
+# Layer: Staging
+# =============================================================
+
+version: 2
+
+models:
+  - name: stg_raw_prices
+    description: >
+      Modèle de staging: nettoie les types, renomme les colonnes,
+      génère un row_key unique. Pas encore de déduplication.
+
+    columns:
+      - name: row_key
+        description: "Hash MD5 unique (url + timestamp) — clé primaire de staging"
+        tests:
+          - not_null
+
+      - name: product_name
+        description: "Nom du produit nettoyé (TRIM)"
+        tests:
+          - not_null
+
+      - name: price_mad
+        description: "Prix en MAD, typé FLOAT64"
+        tests:
+          - not_null
+
+      - name: source_platform
+        description: "Plateforme source en minuscules"
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['jumia', 'marjane', 'micromagma', 'zara']
+
+      - name: category
+        description: "Catégorie produit en minuscules"
+        tests:
+          - not_null
+
+      - name: product_url
+        description: "URL produit nettoyée"
+        tests:
+          - not_null
+
+      - name: price_date
+        description: "Date extraite du timestamp d'observation"
+        tests:
+          - not_null
