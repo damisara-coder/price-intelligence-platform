@@ -69,3 +69,4 @@ jobs:
         run: |
           docker build -t europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/price-intelligence/airflow:latest ./airflow
           docker push europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/price-intelligence/airflow:latest
+# CI v2
