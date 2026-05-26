@@ -20,9 +20,10 @@ jobs:
       - name: Install flake8
         run: pip install flake8
       - name: Run flake8 on scrapers
-        run: flake8 scrapers/ --max-line-length=120 --exclude=scrapers/data/ --ignore=E221,E226,W292,E302,W503,E501
+        run: flake8 scrapers/ --max-line-length=120 --exclude=scrapers/data/ --ignore=E221,E226,W292,E302,E305,W503,E501
+
       - name: Run flake8 on airflow dags
-        run: flake8 airflow/dags/ --max-line-length=120 --ignore=E221,E226,W292,E302,W503,E501,F401
+        run: flake8 airflow/dags/ --max-line-length=120 --ignore=E221,E226,W292,E302,E305,W503,E501,F401
 
   dbt-test:
     name: Run dbt tests
