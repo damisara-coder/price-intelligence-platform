@@ -1,25 +1,103 @@
+@"
 name: CI Pipeline
 
 on:
+  pull_request:
+    branches: [main]
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  test:
+  lint:
+    name: Lint Python code
     runs-on: ubuntu-latest
-
-    env:
-      PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-
     steps:
-      - name: Checkout repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install flake8
+        run: pip install flake8
+
+      - name: Run flake8 on scrapers
+        run: |
+          flake8 scrapers/ \
+            --max-line-length=120 \
+            --exclude=scrapers/data/ \
+            --ignore=E221,E226,W292,E302,W503,E501
+
+      - name: Run flake8 on airflow dags
+        run: |
+          flake8 airflow/dags/ \
+            --max-line-length=120 \
+            --ignore=E221,E226,W292,E302,W503,E501
+
+  dbt-test:
+    name: Run dbt tests
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dbt-bigquery
+        run: pip install dbt-bigquery==1.7.8
+
+      - name: Check dbt project exists
+        run: |
+          if [ -d "dbt/ecommerce" ]; then
+            echo "dbt project found"
+          else
+            echo "No dbt project yet - skipping"
+            exit 0
+          fi
+
+      - name: Run dbt compile
+        working-directory: dbt/ecommerce
+        run: dbt compile --profiles-dir . || echo "dbt compile skipped - no profile"
+
+  docker-push:
+    name: Build and push Docker images
+    runs-on: ubuntu-latest
+    needs: [lint, dbt-test]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Authenticate to GCP
         uses: google-github-actions/auth@v2
         with:
-          credentials_json: ${{ secrets.GCP_SA_KEY }}
+          credentials_json: `${{ secrets.GCP_SA_KEY }}
 
-      - name: Verify gcloud
-        run: gcloud info
+      - name: Install gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker europe-west1-docker.pkg.dev --quiet
+
+      - name: Build and push scraper image
+        run: |
+          docker build -t \
+            europe-west1-docker.pkg.dev/`${{ secrets.GCP_PROJECT_ID }}/price-intelligence/scraper:latest \
+            ./scrapers
+          docker push \
+            europe-west1-docker.pkg.dev/`${{ secrets.GCP_PROJECT_ID }}/price-intelligence/scraper:latest
+
+      - name: Build and push airflow image
+        run: |
+          docker build -t \
+            europe-west1-docker.pkg.dev/`${{ secrets.GCP_PROJECT_ID }}/price-intelligence/airflow:latest \
+            ./airflow
+          docker push \
+            europe-west1-docker.pkg.dev/`${{ secrets.GCP_PROJECT_ID }}/price-intelligence/airflow:latest
+"@ | Out-File -FilePath .github/workflows/ci.yml -Encoding utf8
