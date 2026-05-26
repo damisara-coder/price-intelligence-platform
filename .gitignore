@@ -24,3 +24,4 @@ venv/
 
 # Windows system files
 Thumbs.db
+airflow/dags/*.json
