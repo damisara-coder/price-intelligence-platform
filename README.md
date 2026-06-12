@@ -1,4 +1,4 @@
-## ✅ **VOICI TON README CORRIGÉ AVEC LES BONS CHEMINS**
+## ✅ **Voici ton README avec les chemins corrigés vers `photos_readme`**
 
 ```markdown
 # 🏷️ Price Intelligence Platform
@@ -47,7 +47,7 @@ La **Price Intelligence Platform** est un système de données end-to-end conçu
 
 ## 🏗️ Architecture du projet
 
-![Architecture](screenshots/architecture.png)
+![Architecture](/uploads/architecture.png)
 
 > *Schéma de l'architecture du projet (pipeline complet)*
 
@@ -193,7 +193,7 @@ Les données scrappées contiennent : `name`, `price`, `category`, `source`, `ur
 
 ### Flux principal
 
-![Pipeline](screenshots/pipeline.png)
+![Pipeline](/uploads/pipeline.png)
 
 > *Schéma du pipeline de données*
 
@@ -230,16 +230,6 @@ Déduplique et enrichit :
 | `agg_daily_prices` | Produit × Jour | avg, min, max, std |
 | `agg_weekly_category_stats` | Catégorie × Semaine × Plateforme | stats hebdo, évolution |
 
-### 📚 Documentation dbt
-
-Le projet utilise **dbt (data build tool)** pour la transformation et la modélisation des données.
-
-![dbt Lineage](screenshots/airflow-dag.png)
-*Graphique de lineage dbt*
-
-![dbt Docs](screenshots/bigquery.png)
-*Documentation dbt - vue des colonnes*
-
 ---
 
 ## 🌐 API REST
@@ -275,16 +265,16 @@ Le dashboard React (`frontend/`) expose :
 - **Statistiques descriptives** : mean, median, min, max, std
 - **Analyse par marque** : répartition et positionnement prix
 
-![Dashboard](screenshots/dashboard.png)
+![Dashboard](/uploads/dashboard.png)
 *Capture d'écran du dashboard principal*
 
-![Live Prices](screenshots/live-prices.png)
+![Live Prices](/uploads/live-prices.png)
 *Capture d'écran de la page Live Prices*
 
-![Alerts](screenshots/alerts.png)
+![Alerts](/uploads/alerts.png)
 *Capture d'écran de la page Alertes*
 
-![Statistics](screenshots/statistics.png)
+![Statistics](/uploads/statistics.png)
 *Capture d'écran de la page Statistiques*
 
 Accès : `http://localhost:5173`
@@ -295,12 +285,12 @@ Accès : `http://localhost:5173`
 
 ### Heatmap des prix
 
-![Heatmap](screenshots/bigquery.png)
+![Heatmap](/uploads/bigquery.png)
 *Heatmap des prix moyens par catégorie et plateforme*
 
 ### Distribution des prix
 
-![Distribution](screenshots/statistics.png)
+![Distribution](/uploads/statistics.png)
 *Distribution des prix par plateforme*
 
 ---
@@ -325,7 +315,7 @@ Services démarrés :
 | `backend` | 8001 | API FastAPI |
 | `frontend` | 5173 | Dashboard React |
 
-![Docker PS](screenshots/docker-ps.png)
+![Docker PS](/uploads/docker-ps.png)
 *Capture d'écran de `docker ps` montrant tous les conteneurs qui tournent*
 
 ### Cloud — GCP (Terraform)
@@ -363,7 +353,7 @@ push/PR → main
 3. docker-push — Build + push des images
 ```
 
-![GitHub Actions](screenshots/github-actions.png)
+![GitHub Actions](/uploads/github-actions.png)
 *Capture d'écran du pipeline CI/CD GitHub Actions qui passe*
 
 Secrets requis : `GCP_SA_KEY`, `GCP_PROJECT_ID`
@@ -425,13 +415,13 @@ Les plateformes couvertes ciblent le marché marocain. Les prix sont en **MAD (D
 
 ## 📸 Captures d'écran
 
-![Airflow DAG](screenshots/airflow-dag.png)
+![Airflow DAG](/uploads/airflow-dag.png)
 *Le DAG Airflow avec toutes les tâches vertes*
 
-![NiFi Flow](screenshots/nifi-flow.png)
+![NiFi Flow](/uploads/nifi-flow.png)
 *Le flow NiFi*
 
-![BigQuery](screenshots/bigquery.png)
+![BigQuery](/uploads/bigquery.png)
 *Les données dans BigQuery*
 
 ---
@@ -445,7 +435,7 @@ Les plateformes couvertes ciblent le marché marocain. Les prix sont en **MAD (D
 | **Data Engineer** | Salma Atanan | Scrapers, Kafka, NiFi, Airflow, Bigtable |
 | **Data Analyst** | Fatima Najim | dbt models, Statistiques descriptives & inférentielles |
 
-
+**Semestre 2 - Groupe Data Intelligence**
 
 ---
 
@@ -462,7 +452,4 @@ Les plateformes couvertes ciblent le marché marocain. Les prix sont en **MAD (D
 - Filtrage par plateforme et catégorie
 - Graphiques interactifs
 ```
-
----
-
 
