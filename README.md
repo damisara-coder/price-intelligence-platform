@@ -1,10 +1,7 @@
-## ✅ **README.md COMPLET ET CORRIGÉ**
-
-```markdown
 # 🏷️ Price Intelligence Platform
 
 [![Python](https://img.shields.io/badge/Python-3.11-blue)](https://www.python.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.110-teal)](https://fastapi.tiangolo.com/)
+[![FastAPIcat README.md | head -20](https://img.shields.io/badge/FastAPI-0.110-teal)](https://fastapi.tiangolo.com/)
 [![React](https://img.shields.io/badge/React-18.3-blue)](https://reactjs.org/)
 [![Docker](https://img.shields.io/badge/Docker-26.0-blue)](https://www.docker.com/)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
@@ -47,9 +44,8 @@ La **Price Intelligence Platform** est un système de données end-to-end conçu
 
 ## 🏗️ Architecture du projet
 
-![architecture](architecture.png)
-
-> *Schéma de l'architecture du projet (pipeline complet)*
+![architectureProjet](image-5.png) 
+> *Photo de l'architecture du projet (schéma du pipeline complet)*
 
 Le projet suit une architecture full stack moderne avec une séparation claire entre la couche data (scraping, streaming, transformation) et la couche application (API, frontend). Les données traversent un pipeline allant des scrapers vers Kafka, NiFi, BigQuery, puis dbt, avant d'être exposées via FastAPI et affichées dans un dashboard React.
 
@@ -193,9 +189,8 @@ Les données scrappées contiennent : `name`, `price`, `category`, `source`, `ur
 
 ### Flux principal
 
-![pipeline](pipeline.png)
-
-> *Schéma du pipeline de données*
+> ![fluxPrincipal](image-6.png)
+> *Photo du pipeline de données (schéma du flux)*
 
 ### DAGs Airflow
 
@@ -207,6 +202,35 @@ Les données scrappées contiennent : `name`, `price`, `category`, `source`, `ur
 | `stats_notebook` | Manuel | Exécution des notebooks d'analyse |
 
 ---
+## 📚 Documentation dbt
+
+Le projet utilise **dbt (data build tool)** pour la transformation et la modélisation des données. La documentation complète des modèles est générée automatiquement.
+
+### 📊 Lineage des données
+
+Le graphique de lineage montre les dépendances entre les modèles, de la source brute jusqu'aux tables agrégées :
+
+![lineage](<WhatsApp Image 2026-06-12 at 19.26.01.jpeg>)
+*Graphique de lineage dbt - stg_raw_prices → cleaned_prices → agg_daily_prices*
+
+### 📋 Modèles principaux
+
+| Modèle | Description | Tests |
+|--------|-------------|-------|
+| **stg_raw_prices** | Nettoyage et typage des données brutes | `not_null`, `unique`, `accepted_values` |
+| **cleaned_prices** | Déduplication et enrichissement | `not_null`, `unique` |
+| **agg_daily_prices** | Agrégations journalières par produit | `relationships` |
+| **agg_weekly_category_stats** | Statistiques hebdomadaires | `dbt_utils.unique_combination_of_columns` |
+
+### 📄 Documentation des colonnes
+
+La table `cleaned_prices` documente l'ensemble des colonnes transformées :
+
+![b](<WhatsApp Image 2026-06-12 at 19.28.49.jpeg>)
+
+*Documentation dbt - vue des colonnes et descriptions*
+
+
 
 ## 🧮 Modèles dbt
 
@@ -232,37 +256,6 @@ Déduplique et enrichit :
 
 ---
 
-## 📚 Documentation dbt
-
-Le projet utilise **dbt (data build tool)** pour la transformation et la modélisation des données. La documentation complète des modèles est générée automatiquement.
-
-### 📊 Lineage des données
-
-Le graphique de lineage montre les dépendances entre les modèles, de la source brute jusqu'aux tables agrégées :
-
-![lineage](airflow-dag.png)
-
-*Graphique de lineage dbt - stg_raw_prices → cleaned_prices → agg_daily_prices*
-
-### 📋 Modèles principaux
-
-| Modèle | Description | Tests |
-|--------|-------------|-------|
-| **stg_raw_prices** | Nettoyage et typage des données brutes | `not_null`, `unique`, `accepted_values` |
-| **cleaned_prices** | Déduplication et enrichissement | `not_null`, `unique` |
-| **agg_daily_prices** | Agrégations journalières par produit | `relationships` |
-| **agg_weekly_category_stats** | Statistiques hebdomadaires | `dbt_utils.unique_combination_of_columns` |
-
-### 📄 Documentation des colonnes
-
-La table `cleaned_prices` documente l'ensemble des colonnes transformées :
-
-![dbt docs](bigquery.png)
-
-*Documentation dbt - vue des colonnes et descriptions*
-
----
-
 ## 🌐 API REST
 
 ### Backend principal (`backend/main.py`) — Port **8001**
@@ -284,41 +277,36 @@ La table `cleaned_prices` documente l'ensemble des colonnes transformées :
 > Documentation Swagger : `http://localhost:8001/docs`
 
 ---
-
 ## 📈 Analyses avancées des prix
 
-### 🔥 Heatmap des prix moyens par plateforme et catégorie
+###  Heatmap des prix moyens par plateforme et catégorie
 
-La heatmap ci-dessous visualise les prix moyens (en MAD) pour chaque combinaison plateforme-catégorie.
+La heatmap ci-dessous visualise les prix moyens (en MAD) pour chaque combinaison plateforme-catégorie. Les couleurs les plus claires indiquent les prix les plus élevés, permettant d'identifier rapidement les segments de marché les plus chers.
 
-![heatmap](heatmapCorrelations.jpeg)
+![heatmap](<WhatsApp Image 2026-06-12 at 19.51.57.jpeg>)
 
 *Heatmap des prix moyens - plateforme vs catégorie*
 
 ### 📊 Distribution réelle des prix
 
-L'analyse de distribution montre comment les prix se répartissent sur chaque plateforme.
+L'analyse de distribution montre comment les prix se répartissent sur chaque plateforme. On observe que :
 
-![distribution](destrubutionPrix.jpeg)
+- **Jumia** présente la plus large gamme de prix, avec une forte concentration sur les produits économiques
+- **Micromagma** se positionne sur le segment premium avec des prix médians plus élevés
+- **Zara** maintient des prix homogènes sur la catégorie vêtements
+- **Marjane** occupe une position intermédiaire sur l'électronique
+
+![destribution](<WhatsApp Image 2026-06-12 at 19.51.57-1.jpeg>)
 
 *Box plot de distribution des prix par plateforme*
 
-### 📉 Prix par plateforme
+### 📉 Prix en temps réel (Streaming SSE)
 
-Comparaison des prix moyens par plateforme.
+Le dashboard intègre un flux SSE (Server-Sent Events) qui met à jour les prix en direct toutes les 5 secondes. Les variations sont basées sur les données réelles des scrapers.
 
-![prix plateforme](prixPlateforme.jpeg)
+![prix](<WhatsApp Image 2026-06-12 at 19.51.57-2.jpeg>)
 
-*Prix moyens par plateforme*
-
-### ⏱️ Évolution temporelle des prix
-
-![evolution](destrubutionTemp.jpeg)
-
-*Évolution des prix dans le temps*
-
----
-
+*Streaming des prix en temps réel*
 ## 📊 Dashboard
 
 Le dashboard React (`frontend/`) expose :
@@ -330,17 +318,17 @@ Le dashboard React (`frontend/`) expose :
 - **Statistiques descriptives** : mean, median, min, max, std
 - **Analyse par marque** : répartition et positionnement prix
 
-![dashboard](dashboard.png)
-*Capture d'écran du dashboard principal*
+> ![dashbord](dashboard.png)
+> *Capture d'écran du dashboard principal*
 
-![live-prices](live-prices.png)
-*Capture d'écran de la page Live Prices*
+> ![livePrice](live-prices.png)  
+> *Capture d'écran de la page Live Prices*
 
-![alerts](alerts.png)
-*Capture d'écran de la page Alertes*
+>  ![Alrets](alerts.png) 
+> *Capture d'écran de la page Alertes*
 
-![statistics](statistics.png)
-*Capture d'écran de la page Statistiques*
+> ![statistics](statistics.png)  
+> *Capture d'écran de la page Statistiques*
 
 Accès : `http://localhost:5173`
 
@@ -366,8 +354,9 @@ Services démarrés :
 | `backend` | 8001 | API FastAPI |
 | `frontend` | 5173 | Dashboard React |
 
-![docker-ps](docker-ps.png)
-*Capture d'écran de `docker ps` montrant tous les conteneurs qui tournent*
+>  ![docker ](<WhatsApp Image 2026-06-12 at 17.51.52.jpeg>)
+![doker](<WhatsApp Image 2026-06-12 at 17.52.38.jpeg>)
+> *Capture d'écran de `docker ps` montrant tous les containers qui tournent*
 
 ### Cloud — GCP (Terraform)
 
@@ -387,6 +376,7 @@ Manifests disponibles dans `infra/k8s/`
 
 ---
 
+
 ## ⚙️ CI/CD
 
 Pipeline GitHub Actions (`.github/workflows/ci.yml`) :
@@ -404,9 +394,8 @@ push/PR → main
 3. docker-push — Build + push des images
 ```
 
-![github-actions](github-actions.jpeg)
-
-*Capture d'écran du pipeline CI/CD GitHub Actions qui passe*
+> ![ci\cd](<WhatsApp Image 2026-06-12 at 17.43.41.jpeg>)
+> *Capture d'écran du pipeline CI/CD GitHub Actions qui passe*
 
 Secrets requis : `GCP_SA_KEY`, `GCP_PROJECT_ID`
 
@@ -462,21 +451,22 @@ Les plateformes couvertes ciblent le marché marocain. Les prix sont en **MAD (D
 - `laptops`
 - `tv`
 - `vetements`
-
-![scraping](nifi-flow.png)
-
+![scrape](image-7.png)
 ---
 
 ## 📸 Captures d'écran
 
-![airflow dag](airflow-dag.png)
-*Le DAG Airflow avec toutes les tâches vertes*
 
-![nifi flow](nifi-flow.png)
-*Le flow NiFi*
+> ![airflow](image-8.png) ![airflow](image-9.png)![airflow](image-10.png)
+> *Le DAG Airflow avec toutes les tâches vertes*
 
-![bigquery](bigquery.png)
-*Les données dans BigQuery*
+>  ![nifi](image-11.png)
+> *Le flow NiFi*
+
+>  ![bigquery](image-12.png) ![bigquery](image-13.png)![intstance](image-14.png)
+> *Les lignes dans BigQuery*
+
+
 
 ---
 
@@ -489,7 +479,9 @@ Les plateformes couvertes ciblent le marché marocain. Les prix sont en **MAD (D
 | **Data Engineer** | Salma Atanan | Scrapers, Kafka, NiFi, Airflow, Bigtable |
 | **Data Analyst** | Fatima Najim | dbt models, Statistiques descriptives & inférentielles |
 
+**Semestre 2 - Groupe Data Intelligence**
 
+---
 
 ## 🎥 Application demo
 
@@ -497,13 +489,10 @@ Les plateformes couvertes ciblent le marché marocain. Les prix sont en **MAD (D
 
 *Télécharge le fichier ZIP, décompresse-le et regarde la démo*
 
+
 **Fonctionnalités présentées :**
 - Navigation dans le dashboard
 - Visualisation des prix en streaming (SSE)
 - Détection des alertes de baisse
 - Filtrage par plateforme et catégorie
 - Graphiques interactifs
-```
-
----
-
