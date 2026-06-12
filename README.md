@@ -306,26 +306,6 @@ Déduplique et enrichit :
 
 ---
 
-## 🌐 API REST
-
-### Backend principal (`backend/main.py`) — Port **8001**
-
-| Endpoint | Méthode | Description |
-|----------|---------|-------------|
-| `/api/health` | GET | Santé de l'API |
-| `/api/kpis` | GET | KPIs globaux |
-| `/api/prices` | GET | Liste des prix avec filtres |
-| `/api/stats` | GET | Statistiques descriptives |
-| `/api/brands` | GET | Stats par marque |
-| `/api/alerts` | GET | Alertes de baisse de prix |
-| `/api/price-history` | GET | Historique des prix |
-| `/api/price-compare` | GET | Comparaison inter-plateformes |
-| `/api/stream/dashboard` | GET | **SSE** — Stream temps réel |
-| `/api/generate-alerts` | GET | Génération d'alertes |
-| `/api/stats/dynamic` | GET | Stats dynamiques |
-
-> Documentation Swagger : `http://localhost:8001/docs`
-
 
 
 
@@ -403,6 +383,26 @@ Le dashboard React (`frontend/`) expose :
 Accès : `http://localhost:5173`
 
 ---
+
+## 🌐 API REST
+
+### Backend principal (`backend/main.py`) — Port **8001**
+
+| Endpoint | Méthode | Description |
+|----------|---------|-------------|
+| `/api/health` | GET | Santé de l'API |
+| `/api/kpis` | GET | KPIs globaux |
+| `/api/prices` | GET | Liste des prix avec filtres |
+| `/api/stats` | GET | Statistiques descriptives |
+| `/api/brands` | GET | Stats par marque |
+| `/api/alerts` | GET | Alertes de baisse de prix |
+| `/api/price-history` | GET | Historique des prix |
+| `/api/price-compare` | GET | Comparaison inter-plateformes |
+| `/api/stream/dashboard` | GET | **SSE** — Stream temps réel |
+| `/api/generate-alerts` | GET | Génération d'alertes |
+| `/api/stats/dynamic` | GET | Stats dynamiques |
+
+> Documentation Swagger : `http://localhost:8001/docs`
 
 
 
