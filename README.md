@@ -1,7 +1,8 @@
+
 # 🏷️ Price Intelligence Platform
 
 [![Python](https://img.shields.io/badge/Python-3.11-blue)](https://www.python.org/)
-[![FastAPIcat README.md | head -20](https://img.shields.io/badge/FastAPI-0.110-teal)](https://fastapi.tiangolo.com/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.110-teal)](https://fastapi.tiangolo.com/)
 [![React](https://img.shields.io/badge/React-18.3-blue)](https://reactjs.org/)
 [![Docker](https://img.shields.io/badge/Docker-26.0-blue)](https://www.docker.com/)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
@@ -44,8 +45,9 @@ La **Price Intelligence Platform** est un système de données end-to-end conçu
 
 ## 🏗️ Architecture du projet
 
-![architectureProjet](image-5.png) 
-> *Photo de l'architecture du projet (schéma du pipeline complet)*
+![Architecture](screenshots/architecture.png)
+
+> *Schéma de l'architecture du projet (pipeline complet)*
 
 Le projet suit une architecture full stack moderne avec une séparation claire entre la couche data (scraping, streaming, transformation) et la couche application (API, frontend). Les données traversent un pipeline allant des scrapers vers Kafka, NiFi, BigQuery, puis dbt, avant d'être exposées via FastAPI et affichées dans un dashboard React.
 
@@ -189,8 +191,9 @@ Les données scrappées contiennent : `name`, `price`, `category`, `source`, `ur
 
 ### Flux principal
 
-> ![fluxPrincipal](image-6.png)
-> *Photo du pipeline de données (schéma du flux)*
+![Pipeline](screenshots/pipeline.png)
+
+> *Schéma du pipeline de données*
 
 ### DAGs Airflow
 
@@ -260,17 +263,17 @@ Le dashboard React (`frontend/`) expose :
 - **Statistiques descriptives** : mean, median, min, max, std
 - **Analyse par marque** : répartition et positionnement prix
 
-> **📸 AJOUTER ICI UNE PHOTO : ![dashbord](dashboard.png)
-> *Capture d'écran du dashboard principal*
+![Dashboard](screenshots/dashboard.png)
+*Capture d'écran du dashboard principal*
 
-> **📸 AJOUTER ICI UNE PHOTO :![livePrice](live-prices.png)  
-> *Capture d'écran de la page Live Prices*
+![Live Prices](screenshots/live-prices.png)
+*Capture d'écran de la page Live Prices*
 
-> **📸 AJOUTER ICI UNE PHOTO : ![Alrets](alerts.png) 
-> *Capture d'écran de la page Alertes*
+![Alerts](screenshots/alerts.png)
+*Capture d'écran de la page Alertes*
 
-> **📸 AJOUTER ICI UNE PHOTO : ![statistics](statistics.png)  
-> *Capture d'écran de la page Statistiques*
+![Statistics](screenshots/statistics.png)
+*Capture d'écran de la page Statistiques*
 
 Accès : `http://localhost:5173`
 
@@ -296,9 +299,8 @@ Services démarrés :
 | `backend` | 8001 | API FastAPI |
 | `frontend` | 5173 | Dashboard React |
 
-> **📸 AJOUTER ICI UNE PHOTO : ![docker ](<WhatsApp Image 2026-06-12 at 17.51.52.jpeg>)
-![doker](<WhatsApp Image 2026-06-12 at 17.52.38.jpeg>)
-> *Capture d'écran de `docker ps` montrant tous les containers qui tournent*
+![Docker PS](screenshots/docker-ps.png)
+*Capture d'écran de `docker ps` montrant tous les conteneurs qui tournent*
 
 ### Cloud — GCP (Terraform)
 
@@ -318,7 +320,6 @@ Manifests disponibles dans `infra/k8s/`
 
 ---
 
-
 ## ⚙️ CI/CD
 
 Pipeline GitHub Actions (`.github/workflows/ci.yml`) :
@@ -336,8 +337,8 @@ push/PR → main
 3. docker-push — Build + push des images
 ```
 
-> **📸 AJOUTER ICI UNE PHOTO : ![ci\cd](<WhatsApp Image 2026-06-12 at 17.43.41.jpeg>)
-> *Capture d'écran du pipeline CI/CD GitHub Actions qui passe*
+![GitHub Actions](screenshots/github-actions.png)
+*Capture d'écran du pipeline CI/CD GitHub Actions qui passe*
 
 Secrets requis : `GCP_SA_KEY`, `GCP_PROJECT_ID`
 
@@ -393,22 +394,19 @@ Les plateformes couvertes ciblent le marché marocain. Les prix sont en **MAD (D
 - `laptops`
 - `tv`
 - `vetements`
-![scrape](image-7.png)
+
 ---
 
 ## 📸 Captures d'écran
 
+![Airflow DAG](screenshots/airflow-dag.png)
+*Le DAG Airflow avec toutes les tâches vertes*
 
-> **📸 AJOUTER ICI UNE PHOTO :![airflow](image-8.png) ![airflow](image-9.png)![airflow](image-10.png)
-> *Le DAG Airflow avec toutes les tâches vertes*
+![NiFi Flow](screenshots/nifi-flow.png)
+*Le flow NiFi*
 
-> **📸 AJOUTER ICI UNE PHOTO : ![nifi](image-11.png)
-> *Le flow NiFi*
-
-> **📸 AJOUTER ICI UNE PHOTO : ![bigquery](image-12.png) ![bigquery](image-13.png)![intstance](image-14.png)
-> *Les lignes dans BigQuery*
-
-
+![BigQuery](screenshots/bigquery.png)
+*Les données dans BigQuery*
 
 ---
 
@@ -421,7 +419,62 @@ Les plateformes couvertes ciblent le marché marocain. Les prix sont en **MAD (D
 | **Data Engineer** | Salma Atanan | Scrapers, Kafka, NiFi, Airflow, Bigtable |
 | **Data Analyst** | Fatima Najim | dbt models, Statistiques descriptives & inférentielles |
 
-**Semestre 2 - Groupe Data Intelligence**
+## 📚 Documentation dbt
+
+Le projet utilise **dbt (data build tool)** pour la transformation et la modélisation des données. La documentation complète des modèles est générée automatiquement.
+
+### 📊 Lineage des données
+
+Le graphique de lineage montre les dépendances entre les modèles, de la source brute jusqu'aux tables agrégées :
+
+![dbt Lineage](screenshots/dbt-lineage.png)
+
+*Graphique de lineage dbt - stg_raw_prices → cleaned_prices → agg_daily_prices*
+
+### 📋 Modèles principaux
+
+| Modèle | Description | Tests |
+|--------|-------------|-------|
+| **stg_raw_prices** | Nettoyage et typage des données brutes | `not_null`, `unique`, `accepted_values` |
+| **cleaned_prices** | Déduplication et enrichissement | `not_null`, `unique` |
+| **agg_daily_prices** | Agrégations journalières par produit | `relationships` |
+| **agg_weekly_category_stats** | Statistiques hebdomadaires | `dbt_utils.unique_combination_of_columns` |
+
+### 📄 Documentation des colonnes
+
+La table `cleaned_prices` documente l'ensemble des colonnes transformées :
+
+![dbt Docs](screenshots/dbt-docs.png)
+
+*Documentation dbt - vue des colonnes et descriptions*
+
+| Colonne | Type | Description |
+|---------|------|-------------|
+| `row_key` | STRING | Clé primaire héritée du staging |
+| `product_name` | STRING | Nom du produit |
+| `price_mad` | FLOAT64 | Prix en MAD, nettoyé (outliers exclus) |
+| `category_normalized` | STRING | Catégorie normalisée |
+| `source_platform` | STRING | Plateforme e-commerce source |
+| `scraped_at` | TIMESTAMP | Date et heure du scraping |
+| `price_date` | DATE | Date d'observation du prix |
+
+### ✅ Résultats des tests
+
+Les tests de qualité vérifient l'intégrité des données après chaque transformation.
+
+| Test | Statut |
+|------|--------|
+| `not_null` | ✅ PASS |
+| `unique` | ✅ PASS |
+| `accepted_values` | ✅ PASS |
+| `relationships` | ✅ PASS |
+
+### 🚀 Générer la documentation
+
+```bash
+cd dbt/ecommerce
+dbt docs generate
+dbt docs serve
 
 ---
 
@@ -431,10 +484,27 @@ Les plateformes couvertes ciblent le marché marocain. Les prix sont en **MAD (D
 
 *Télécharge le fichier ZIP, décompresse-le et regarde la démo*
 
-
 **Fonctionnalités présentées :**
 - Navigation dans le dashboard
 - Visualisation des prix en streaming (SSE)
 - Détection des alertes de baisse
 - Filtrage par plateforme et catégorie
 - Graphiques interactifs
+```
+
+---
+
+## 🚀 **MAINTENANT, POUSSE LES CORRECTIONS**
+
+```powershell
+cd C:\Users\admin\Downloads\price-intelligence-platform
+
+# Remplacer le README
+# Copie-colle le contenu corrigé ci-dessus dans README.md
+
+# Pousser
+git add README.md
+git commit -m "fix: correct all image paths in README"
+git push origin main
+```
+
