@@ -1,0 +1,20 @@
+﻿:root {
+  --bg-base: #080c14; --bg-surface: #0d1420; --bg-card: #162035;
+  --text-primary: #f0f4ff; --text-secondary: #8899bb; --text-muted: #4a5a7a;
+  --jumia: #FF5C00; --marjane: #2563EB; --micromagma: #10B981; --zara: #8B5CF6;
+  --green: #10B981; --red: #EF4444;
+  --font-mono: 'DM Mono', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg-base); color: var(--text-primary); font-family: system-ui; }
+.app-shell { display: flex; min-height: 100vh; }
+.sidebar { width: 240px; background: var(--bg-surface); border-right: 1px solid rgba(255,255,255,0.06); position: fixed; height: 100vh; }
+.main-content { margin-left: 240px; flex: 1; }
+.topbar { height: 60px; background: var(--bg-surface); border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: space-between; padding: 0 28px; }
+.live-badge { display: flex; align-items: center; gap: 6px; background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.25); color: var(--green); padding: 5px 12px; border-radius: 20px; font-size: 11px; }
+.live-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse 1.5s infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+.page { padding: 28px; }
+.card { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 20px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.kpi-value { font-size: 28px; font-weight: 800; }

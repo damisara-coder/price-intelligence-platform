@@ -1,0 +1,13 @@
+brand,category_normalized,mean_price,median_price,product_count
+Apple,laptops,20246.864864864863,19536.0,74
+Apple,smartphones,5689.8493150684935,4645.0,73
+Oppo,smartphones,3734.0526315789475,3799.0,19
+Other,laptops,6034.0,3056.0,670
+Other,smartphones,1574.499621342513,335.0,581
+Other,tv,3810.2903780068727,2899.0,582
+Other,vetements,262.74803548795944,140.0,789
+Samsung,laptops,8943.0,11612.0,5
+Samsung,smartphones,3094.8981481481483,1806.5,108
+Samsung,tv,5376.235294117647,3999.0,17
+Xiaomi,smartphones,3036.242424242424,2919.5,66
+Xiaomi,tv,4298.833333333333,3219.0,6

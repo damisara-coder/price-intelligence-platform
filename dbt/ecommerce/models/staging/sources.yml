@@ -1,0 +1,41 @@
+# =============================================================
+# SOURCES: ecommerce_raw
+# =============================================================
+
+version: 2
+
+sources:
+  - name: ecommerce_raw
+    description: "Données brutes scrapées depuis les plateformes e-commerce marocaines"
+    database: "bionic-baton-496415-h5"
+    schema: ecommerce_prices
+
+    tables:
+      - name: products
+        description: >
+          Table principale contenant tous les produits scrapés.
+          Chaque ligne = une observation de prix à un instant donné.
+          Doublons possibles (même URL, timestamps proches).
+        columns:
+          - name: name
+            description: "Nom du produit tel qu'affiché sur le site source"
+          - name: price
+            description: "Prix en Dirhams Marocains (MAD)"
+            tests:
+              - not_null
+          - name: category
+            description: "Catégorie du produit"
+          - name: source
+            description: "Plateforme source du scraping"
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['jumia', 'marjane', 'micromagma', 'zara']
+          - name: url
+            description: "URL unique du produit"
+            tests:
+              - not_null
+          - name: timestamp
+            description: "Datetime d'observation du prix"
+          - name: scraped_at
+            description: "Datetime d'ingestion dans BigQuery"

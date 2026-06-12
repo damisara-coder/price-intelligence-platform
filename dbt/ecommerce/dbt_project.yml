@@ -1,0 +1,52 @@
+name: 'ecommerce'
+version: '1.0.0'
+config-version: 2
+
+# Profil dbt utilisé
+profile: 'ecommerce'
+
+# Emplacements des dossiers
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+# Dossiers nettoyés par dbt clean
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+# Configuration des modèles
+models:
+  ecommerce:
+
+    staging:
+      +materialized: view
+      +tags: ['staging']
+
+    cleaned:
+      +materialized: table
+      +tags: ['cleaned', 'core']
+
+    aggregated:
+      +materialized: table
+      +tags: ['aggregated']
+
+# Variables globales
+vars:
+  min_valid_price: 1
+  max_valid_price: 100000
+  price_alert_threshold: 10
+
+  valid_platforms:
+    - 'jumia'
+    - 'marjane'
+    - 'micromagma'
+    - 'zara'
+
+# Configuration des tests
+tests:
+  ecommerce:
+    +severity: error
