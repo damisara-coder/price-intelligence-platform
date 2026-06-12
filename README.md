@@ -1,10 +1,7 @@
-## ✅ **Voici ton README avec les chemins corrigés vers `photos_readme`**
-
-```markdown
 # 🏷️ Price Intelligence Platform
 
 [![Python](https://img.shields.io/badge/Python-3.11-blue)](https://www.python.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.110-teal)](https://fastapi.tiangolo.com/)
+[![FastAPIcat README.md | head -20](https://img.shields.io/badge/FastAPI-0.110-teal)](https://fastapi.tiangolo.com/)
 [![React](https://img.shields.io/badge/React-18.3-blue)](https://reactjs.org/)
 [![Docker](https://img.shields.io/badge/Docker-26.0-blue)](https://www.docker.com/)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
@@ -47,9 +44,8 @@ La **Price Intelligence Platform** est un système de données end-to-end conçu
 
 ## 🏗️ Architecture du projet
 
-![Architecture](/uploads/architecture.png)
-
-> *Schéma de l'architecture du projet (pipeline complet)*
+![architectureProjet](image-5.png) 
+> *Photo de l'architecture du projet (schéma du pipeline complet)*
 
 Le projet suit une architecture full stack moderne avec une séparation claire entre la couche data (scraping, streaming, transformation) et la couche application (API, frontend). Les données traversent un pipeline allant des scrapers vers Kafka, NiFi, BigQuery, puis dbt, avant d'être exposées via FastAPI et affichées dans un dashboard React.
 
@@ -193,9 +189,8 @@ Les données scrappées contiennent : `name`, `price`, `category`, `source`, `ur
 
 ### Flux principal
 
-![Pipeline](/uploads/pipeline.png)
-
-> *Schéma du pipeline de données*
+> ![fluxPrincipal](image-6.png)
+> *Photo du pipeline de données (schéma du flux)*
 
 ### DAGs Airflow
 
@@ -265,33 +260,19 @@ Le dashboard React (`frontend/`) expose :
 - **Statistiques descriptives** : mean, median, min, max, std
 - **Analyse par marque** : répartition et positionnement prix
 
-![Dashboard](/uploads/dashboard.png)
-*Capture d'écran du dashboard principal*
+> **📸 AJOUTER ICI UNE PHOTO : ![dashbord](dashboard.png)
+> *Capture d'écran du dashboard principal*
 
-![Live Prices](/uploads/live-prices.png)
-*Capture d'écran de la page Live Prices*
+> **📸 AJOUTER ICI UNE PHOTO :![livePrice](live-prices.png)  
+> *Capture d'écran de la page Live Prices*
 
-![Alerts](/uploads/alerts.png)
-*Capture d'écran de la page Alertes*
+> **📸 AJOUTER ICI UNE PHOTO : ![Alrets](alerts.png) 
+> *Capture d'écran de la page Alertes*
 
-![Statistics](/uploads/statistics.png)
-*Capture d'écran de la page Statistiques*
+> **📸 AJOUTER ICI UNE PHOTO : ![statistics](statistics.png)  
+> *Capture d'écran de la page Statistiques*
 
 Accès : `http://localhost:5173`
-
----
-
-## 📊 Analyses avancées
-
-### Heatmap des prix
-
-![Heatmap](/uploads/bigquery.png)
-*Heatmap des prix moyens par catégorie et plateforme*
-
-### Distribution des prix
-
-![Distribution](/uploads/statistics.png)
-*Distribution des prix par plateforme*
 
 ---
 
@@ -315,8 +296,9 @@ Services démarrés :
 | `backend` | 8001 | API FastAPI |
 | `frontend` | 5173 | Dashboard React |
 
-![Docker PS](/uploads/docker-ps.png)
-*Capture d'écran de `docker ps` montrant tous les conteneurs qui tournent*
+> **📸 AJOUTER ICI UNE PHOTO : ![docker ](<WhatsApp Image 2026-06-12 at 17.51.52.jpeg>)
+![doker](<WhatsApp Image 2026-06-12 at 17.52.38.jpeg>)
+> *Capture d'écran de `docker ps` montrant tous les containers qui tournent*
 
 ### Cloud — GCP (Terraform)
 
@@ -336,6 +318,7 @@ Manifests disponibles dans `infra/k8s/`
 
 ---
 
+
 ## ⚙️ CI/CD
 
 Pipeline GitHub Actions (`.github/workflows/ci.yml`) :
@@ -353,8 +336,8 @@ push/PR → main
 3. docker-push — Build + push des images
 ```
 
-![GitHub Actions](/uploads/github-actions.png)
-*Capture d'écran du pipeline CI/CD GitHub Actions qui passe*
+> **📸 AJOUTER ICI UNE PHOTO : ![ci\cd](<WhatsApp Image 2026-06-12 at 17.43.41.jpeg>)
+> *Capture d'écran du pipeline CI/CD GitHub Actions qui passe*
 
 Secrets requis : `GCP_SA_KEY`, `GCP_PROJECT_ID`
 
@@ -410,19 +393,22 @@ Les plateformes couvertes ciblent le marché marocain. Les prix sont en **MAD (D
 - `laptops`
 - `tv`
 - `vetements`
-
+![scrape](image-7.png)
 ---
 
 ## 📸 Captures d'écran
 
-![Airflow DAG](/uploads/airflow-dag.png)
-*Le DAG Airflow avec toutes les tâches vertes*
 
-![NiFi Flow](/uploads/nifi-flow.png)
-*Le flow NiFi*
+> **📸 AJOUTER ICI UNE PHOTO :![airflow](image-8.png) ![airflow](image-9.png)![airflow](image-10.png)
+> *Le DAG Airflow avec toutes les tâches vertes*
 
-![BigQuery](/uploads/bigquery.png)
-*Les données dans BigQuery*
+> **📸 AJOUTER ICI UNE PHOTO : ![nifi](image-11.png)
+> *Le flow NiFi*
+
+> **📸 AJOUTER ICI UNE PHOTO : ![bigquery](image-12.png) ![bigquery](image-13.png)![intstance](image-14.png)
+> *Les lignes dans BigQuery*
+
+
 
 ---
 
@@ -445,11 +431,10 @@ Les plateformes couvertes ciblent le marché marocain. Les prix sont en **MAD (D
 
 *Télécharge le fichier ZIP, décompresse-le et regarde la démo*
 
+
 **Fonctionnalités présentées :**
 - Navigation dans le dashboard
 - Visualisation des prix en streaming (SSE)
 - Détection des alertes de baisse
 - Filtrage par plateforme et catégorie
 - Graphiques interactifs
-```
-
