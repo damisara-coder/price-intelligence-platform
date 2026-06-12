@@ -183,6 +183,58 @@ price-intelligence-platform/
 
 Les données scrappées contiennent : `name`, `price`, `category`, `source`, `url`, `timestamp`.
 
+## 📦 Données scrappées
+
+Les plateformes couvertes ciblent le marché marocain. Les prix sont en **MAD (Dirham marocain)**. Les catégories normalisées sont :
+
+- `smartphones`
+- `laptops`
+- `tv`
+- `vetements`
+![scrape](image-7.png)
+---
+
+Apache Airflow - Orchestration des pipelines
+Airflow gère l'exécution quotidienne des tâches de scraping, transformation et qualité des données.
+
+> ![airflow](image-8.png) ![airflow](image-9.png)![airflow](image-10.png)
+> *Le DAG Airflow avec toutes les tâches vertes*
+ttps://airflow-dag.png
+
+
+
+
+
+
+Apache NiFi - Ingestion des données
+NiFi assure le streaming et l'ingestion des données en temps réel.
+
+>  ![nifi](image-11.png)
+> *Le flow NiFi*
+
+
+
+
+ 
+ Google BigQuery - Entrepôt de données
+BigQuery stocke l'ensemble des données transformées et historisées.
+
+>  ![bigquery](image-12.png) ![bigquery](image-13.png)![intstance](image-14.png)
+> *Les lignes dans BigQuery*
+
+
+
+---
+
+## 👥 Équipe projet
+
+| Rôle | Nom | Responsabilités |
+|------|-----|-----------------|
+| **Full Stack Developer** | Hakima fiach | API FastAPI, Frontend React, Dashboard, Streaming SSE |
+| **DevOps** | Sara Dami | Docker, CI/CD, Monitoring, Infrastructure |
+| **Data Engineer** | Salma Atanan | Scrapers, Kafka, NiFi, Airflow, Bigtable |
+| **Data Analyst** | Fatima Najim | dbt models, Statistiques descriptives & inférentielles |
+
 ---
 
 ## 🔄 Pipeline de données
@@ -318,42 +370,6 @@ Le dashboard intègre un flux SSE (Server-Sent Events) qui met à jour les prix 
 ![Évolution temporelle](destrubutionTemp.jpeg)
 
 *Streaming des prix en temps réel*
-
-
-## 📊 Dashboard
-
-Le dashboard React (`frontend/`) expose :
-
-- **KPIs en temps réel** : nombre de produits, alertes actives, prix moyens
-- **Comparaison inter-plateformes** : prix moyens par catégorie
-- **Historique des prix** : courbes d'évolution temporelle
-- **Alertes de baisse** : produits avec réduction significative
-- **Statistiques descriptives** : mean, median, min, max, std
-- **Analyse par marque** : répartition et positionnement prix
-
-> ![dashbord](dashboard.png)
-> *Capture d'écran du dashboard principal*
-
-
-
-
-> ![livePrice](live-prices.png)  
-> *Capture d'écran de la page Live Prices*
-
-
-
->  ![Alrets](alerts.png) 
-> *Capture d'écran de la page Alertes*
-
-
-
-> ![statistics](statistics.png)  
-> *Capture d'écran de la page Statistiques*
-
-Accès : `http://localhost:5173`
-
----
-
 ## ☁️ Infrastructure & Déploiement
 
 ### Local — Docker Compose
@@ -430,6 +446,42 @@ Secrets requis : `GCP_SA_KEY`, `GCP_PROJECT_ID`
 - Node.js 18+
 - Compte GCP (optionnel)
 
+## 📊 Dashboard
+
+Le dashboard React (`frontend/`) expose :
+
+- **KPIs en temps réel** : nombre de produits, alertes actives, prix moyens
+- **Comparaison inter-plateformes** : prix moyens par catégorie
+- **Historique des prix** : courbes d'évolution temporelle
+- **Alertes de baisse** : produits avec réduction significative
+- **Statistiques descriptives** : mean, median, min, max, std
+- **Analyse par marque** : répartition et positionnement prix
+
+> ![dashbord](dashboard.png)
+> *Capture d'écran du dashboard principal*
+
+
+
+
+> ![livePrice](live-prices.png)  
+> *Capture d'écran de la page Live Prices*
+
+
+
+>  ![Alrets](alerts.png) 
+> *Capture d'écran de la page Alertes*
+
+
+
+> ![statistics](statistics.png)  
+> *Capture d'écran de la page Statistiques*
+
+Accès : `http://localhost:5173`
+
+---
+
+
+
 ### Installation locale
 
 ```bash
@@ -463,61 +515,8 @@ npm run dev
 
 ---
 
-## 📦 Données scrappées
-
-Les plateformes couvertes ciblent le marché marocain. Les prix sont en **MAD (Dirham marocain)**. Les catégories normalisées sont :
-
-- `smartphones`
-- `laptops`
-- `tv`
-- `vetements`
-![scrape](image-7.png)
----
-
-Apache Airflow - Orchestration des pipelines
-Airflow gère l'exécution quotidienne des tâches de scraping, transformation et qualité des données.
-
-> ![airflow](image-8.png) ![airflow](image-9.png)![airflow](image-10.png)
-> *Le DAG Airflow avec toutes les tâches vertes*
-ttps://airflow-dag.png
 
 
-
-
-
-
-Apache NiFi - Ingestion des données
-NiFi assure le streaming et l'ingestion des données en temps réel.
-
->  ![nifi](image-11.png)
-> *Le flow NiFi*
-
-
-
-
- 
- Google BigQuery - Entrepôt de données
-BigQuery stocke l'ensemble des données transformées et historisées.
-
->  ![bigquery](image-12.png) ![bigquery](image-13.png)![intstance](image-14.png)
-> *Les lignes dans BigQuery*
-
-
-
----
-
-## 👥 Équipe projet
-
-| Rôle | Nom | Responsabilités |
-|------|-----|-----------------|
-| **Full Stack Developer** | Hakima fiach | API FastAPI, Frontend React, Dashboard, Streaming SSE |
-| **DevOps** | Sara Dami | Docker, CI/CD, Monitoring, Infrastructure |
-| **Data Engineer** | Salma Atanan | Scrapers, Kafka, NiFi, Airflow, Bigtable |
-| **Data Analyst** | Fatima Najim | dbt models, Statistiques descriptives & inférentielles |
-
-**Semestre 2 - Groupe Data Intelligence**
-
----
 
 ## 🎥 Application demo
 
