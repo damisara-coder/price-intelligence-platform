@@ -1,10 +1,7 @@
-## ✅ **Voici ton README CORRIGÉ avec les définitions sous chaque image**
-
-```markdown
 # 🏷️ Price Intelligence Platform
 
 [![Python](https://img.shields.io/badge/Python-3.11-blue)](https://www.python.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.110-teal)](https://fastapi.tiangolo.com/)
+[![FastAPIcat README.md | head -20](https://img.shields.io/badge/FastAPI-0.110-teal)](https://fastapi.tiangolo.com/)
 [![React](https://img.shields.io/badge/React-18.3-blue)](https://reactjs.org/)
 [![Docker](https://img.shields.io/badge/Docker-26.0-blue)](https://www.docker.com/)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
@@ -47,9 +44,8 @@ La **Price Intelligence Platform** est un système de données end-to-end conçu
 
 ## 🏗️ Architecture du projet
 
-![Architecture](architecture.png)
-
-> *Schéma de l'architecture du projet (pipeline complet)*
+![architectureProjet](image-5.png) 
+> *Photo de l'architecture du projet (schéma du pipeline complet)*
 
 Le projet suit une architecture full stack moderne avec une séparation claire entre la couche data (scraping, streaming, transformation) et la couche application (API, frontend). Les données traversent un pipeline allant des scrapers vers Kafka, NiFi, BigQuery, puis dbt, avant d'être exposées via FastAPI et affichées dans un dashboard React.
 
@@ -193,9 +189,8 @@ Les données scrappées contiennent : `name`, `price`, `category`, `source`, `ur
 
 ### Flux principal
 
-![Pipeline](pipeline.png)
-
-> *Schéma du pipeline de données*
+> ![fluxPrincipal](image-6.png)
+> *Photo du pipeline de données (schéma du flux)*
 
 ### DAGs Airflow
 
@@ -207,6 +202,35 @@ Les données scrappées contiennent : `name`, `price`, `category`, `source`, `ur
 | `stats_notebook` | Manuel | Exécution des notebooks d'analyse |
 
 ---
+## 📚 Documentation dbt
+
+Le projet utilise **dbt (data build tool)** pour la transformation et la modélisation des données. La documentation complète des modèles est générée automatiquement.
+
+### 📊 Lineage des données
+
+Le graphique de lineage montre les dépendances entre les modèles, de la source brute jusqu'aux tables agrégées :
+
+![lineage](<WhatsApp Image 2026-06-12 at 19.26.01.jpeg>)
+*Graphique de lineage dbt - stg_raw_prices → cleaned_prices → agg_daily_prices*
+
+### 📋 Modèles principaux
+
+| Modèle | Description | Tests |
+|--------|-------------|-------|
+| **stg_raw_prices** | Nettoyage et typage des données brutes | `not_null`, `unique`, `accepted_values` |
+| **cleaned_prices** | Déduplication et enrichissement | `not_null`, `unique` |
+| **agg_daily_prices** | Agrégations journalières par produit | `relationships` |
+| **agg_weekly_category_stats** | Statistiques hebdomadaires | `dbt_utils.unique_combination_of_columns` |
+
+### 📄 Documentation des colonnes
+
+La table `cleaned_prices` documente l'ensemble des colonnes transformées :
+
+![b](<WhatsApp Image 2026-06-12 at 19.28.49.jpeg>)
+
+*Documentation dbt - vue des colonnes et descriptions*
+
+
 
 ## 🧮 Modèles dbt
 
@@ -232,37 +256,6 @@ Déduplique et enrichit :
 
 ---
 
-## 📚 Documentation dbt
-
-Le projet utilise **dbt (data build tool)** pour la transformation et la modélisation des données. La documentation complète des modèles est générée automatiquement.
-
-### 📊 Lineage des données
-
-Le graphique de lineage montre les dépendances entre les modèles, de la source brute jusqu'aux tables agrégées.
-
-![dbt Lineage](airflow-dag.png)
-
-*Graphique de lineage dbt - visualisation des dépendances entre les modèles stg_raw_prices → cleaned_prices → agg_daily_prices*
-
-### 📋 Modèles principaux
-
-| Modèle | Description | Tests |
-|--------|-------------|-------|
-| **stg_raw_prices** | Nettoyage et typage des données brutes | `not_null`, `unique`, `accepted_values` |
-| **cleaned_prices** | Déduplication et enrichissement | `not_null`, `unique` |
-| **agg_daily_prices** | Agrégations journalières par produit | `relationships` |
-| **agg_weekly_category_stats** | Statistiques hebdomadaires | `dbt_utils.unique_combination_of_columns` |
-
-### 📄 Documentation des colonnes
-
-La table `cleaned_prices` documente l'ensemble des colonnes transformées.
-
-![dbt Documentation](bigquery.png)
-
-*Documentation dbt - vue des colonnes et descriptions détaillées de la table cleaned_prices*
-
----
-
 ## 🌐 API REST
 
 ### Backend principal (`backend/main.py`) — Port **8001**
@@ -284,41 +277,36 @@ La table `cleaned_prices` documente l'ensemble des colonnes transformées.
 > Documentation Swagger : `http://localhost:8001/docs`
 
 ---
-
 ## 📈 Analyses avancées des prix
 
-### 🔥 Heatmap des prix moyens par plateforme et catégorie
+###  Heatmap des prix moyens par plateforme et catégorie
 
-La heatmap ci-dessous visualise les prix moyens (en MAD) pour chaque combinaison plateforme-catégorie.
+La heatmap ci-dessous visualise les prix moyens (en MAD) pour chaque combinaison plateforme-catégorie. Les couleurs les plus claires indiquent les prix les plus élevés, permettant d'identifier rapidement les segments de marché les plus chers.
 
-![Heatmap](heatmapCorrelations.jpeg)
+![heatmap](<WhatsApp Image 2026-06-12 at 19.51.57.jpeg>)
 
-*Cette heatmap montre la corrélation des prix entre les différentes plateformes et catégories. Les couleurs plus claires indiquent les prix les plus élevés.*
+*Heatmap des prix moyens - plateforme vs catégorie*
 
 ### 📊 Distribution réelle des prix
 
-L'analyse de distribution montre comment les prix se répartissent sur chaque plateforme.
+L'analyse de distribution montre comment les prix se répartissent sur chaque plateforme. On observe que :
 
-![Distribution](destrubutionPrix.jpeg)
+- **Jumia** présente la plus large gamme de prix, avec une forte concentration sur les produits économiques
+- **Micromagma** se positionne sur le segment premium avec des prix médians plus élevés
+- **Zara** maintient des prix homogènes sur la catégorie vêtements
+- **Marjane** occupe une position intermédiaire sur l'électronique
 
-*Box plot représentant la distribution des prix par plateforme. On observe que Jumia présente la plus large gamme de prix, Micromagma se positionne sur le segment premium, Zara maintient des prix homogènes et Marjane occupe une position intermédiaire.*
+![destribution](<WhatsApp Image 2026-06-12 at 19.51.57-1.jpeg>)
 
-### 📉 Prix par plateforme
+*Box plot de distribution des prix par plateforme*
 
-Comparaison des prix moyens par plateforme.
+### 📉 Prix en temps réel (Streaming SSE)
 
-![Prix par plateforme](prixPlateforme.jpeg)
+Le dashboard intègre un flux SSE (Server-Sent Events) qui met à jour les prix en direct toutes les 5 secondes. Les variations sont basées sur les données réelles des scrapers.
 
-*Graphique comparatif des prix moyens entre Jumia, Marjane, Micromagma et Zara, permettant d'identifier les plateformes les plus compétitives.*
+![prix](<WhatsApp Image 2026-06-12 at 19.51.57-2.jpeg>)
 
-### ⏱️ Évolution temporelle des prix
-
-![Évolution temporelle](destrubutionTemp.jpeg)
-
-*Évolution des prix dans le temps, montrant les tendances et fluctuations du marché sur la période analysée.*
-
----
-
+*Streaming des prix en temps réel*
 ## 📊 Dashboard
 
 Le dashboard React (`frontend/`) expose :
@@ -330,17 +318,17 @@ Le dashboard React (`frontend/`) expose :
 - **Statistiques descriptives** : mean, median, min, max, std
 - **Analyse par marque** : répartition et positionnement prix
 
-![Dashboard Principal](dashboard.png)
-*Interface principale du dashboard avec les KPIs et graphiques interactifs*
+> ![dashbord](dashboard.png)
+> *Capture d'écran du dashboard principal*
 
-![Live Prices](live-prices.png)
-*Page Live Prices - streaming des prix en temps réel avec SSE*
+> ![livePrice](live-prices.png)  
+> *Capture d'écran de la page Live Prices*
 
-![Alertes](alerts.png)
-*Page Alertes - détection et visualisation des baisses de prix*
+>  ![Alrets](alerts.png) 
+> *Capture d'écran de la page Alertes*
 
-![Statistiques](statistics.png)
-*Page Statistiques - analyses descriptives détaillées*
+> ![statistics](statistics.png)  
+> *Capture d'écran de la page Statistiques*
 
 Accès : `http://localhost:5173`
 
@@ -366,8 +354,9 @@ Services démarrés :
 | `backend` | 8001 | API FastAPI |
 | `frontend` | 5173 | Dashboard React |
 
-![Docker PS](docker-ps.png)
-*État des conteneurs Docker - tous les services sont opérationnels*
+>  ![docker ](<WhatsApp Image 2026-06-12 at 17.51.52.jpeg>)
+![doker](<WhatsApp Image 2026-06-12 at 17.52.38.jpeg>)
+> *Capture d'écran de `docker ps` montrant tous les containers qui tournent*
 
 ### Cloud — GCP (Terraform)
 
@@ -387,6 +376,7 @@ Manifests disponibles dans `infra/k8s/`
 
 ---
 
+
 ## ⚙️ CI/CD
 
 Pipeline GitHub Actions (`.github/workflows/ci.yml`) :
@@ -404,9 +394,8 @@ push/PR → main
 3. docker-push — Build + push des images
 ```
 
-![GitHub Actions](github-actions.jpeg)
-
-*Pipeline CI/CD GitHub Actions avec toutes les étapes validées en vert*
+> ![ci\cd](<WhatsApp Image 2026-06-12 at 17.43.41.jpeg>)
+> *Capture d'écran du pipeline CI/CD GitHub Actions qui passe*
 
 Secrets requis : `GCP_SA_KEY`, `GCP_PROJECT_ID`
 
@@ -462,38 +451,43 @@ Les plateformes couvertes ciblent le marché marocain. Les prix sont en **MAD (D
 - `laptops`
 - `tv`
 - `vetements`
-
-![Scraping](nifi-flow.png)
-
-*Pipeline d'ingestion NiFi pour les données scrappées*
-
+![scrape](image-7.png)
 ---
 
-## 📸 Captures d'écran
-
-### Apache Airflow - Orchestration des pipelines
-
+Apache Airflow - Orchestration des pipelines
 Airflow gère l'exécution quotidienne des tâches de scraping, transformation et qualité des données.
 
-![Airflow DAG](airflow-dag.png)
+https://airflow-dag.png
 
-*Le DAG Airflow avec toutes les tâches vertes, indiquant le succès des exécutions*
+Le DAG Airflow avec toutes les tâches vertes, indiquant le succès des exécutions
 
-### Apache NiFi - Ingestion des données
-
+Apache NiFi - Ingestion des données
 NiFi assure le streaming et l'ingestion des données en temps réel.
 
-![NiFi Flow](nifi-flow.png)
+https://nifi-flow.png
 
-*Le flow NiFi pour l'ingestion et le routage des données*
+Le flow NiFi pour l'ingestion et le routage des données
 
-### Google BigQuery - Entrepôt de données
-
+Google BigQuery - Entrepôt de données
 BigQuery stocke l'ensemble des données transformées et historisées.
 
-![BigQuery Tables](bigquery.png)
+https://bigquery.png
 
-*Les données dans BigQuery - aperçu des tables et du volume de données*
+Les données dans BigQuery - aperçu des tables et du volume de données
+
+
+
+
+> ![airflow](image-8.png) ![airflow](image-9.png)![airflow](image-10.png)
+> *Le DAG Airflow avec toutes les tâches vertes*
+
+>  ![nifi](image-11.png)
+> *Le flow NiFi*
+
+>  ![bigquery](image-12.png) ![bigquery](image-13.png)![intstance](image-14.png)
+> *Les lignes dans BigQuery*
+
+
 
 ---
 
@@ -516,13 +510,10 @@ BigQuery stocke l'ensemble des données transformées et historisées.
 
 *Télécharge le fichier ZIP, décompresse-le et regarde la démo*
 
+
 **Fonctionnalités présentées :**
 - Navigation dans le dashboard
 - Visualisation des prix en streaming (SSE)
 - Détection des alertes de baisse
 - Filtrage par plateforme et catégorie
 - Graphiques interactifs
-```
-
----
-
