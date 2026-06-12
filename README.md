@@ -1,4 +1,4 @@
-## ✅ **Voici la version CORRIGÉE et COMPLÈTE de ton README**
+## ✅ **README.md COMPLET ET CORRIGÉ**
 
 ```markdown
 # 🏷️ Price Intelligence Platform
@@ -47,7 +47,7 @@ La **Price Intelligence Platform** est un système de données end-to-end conçu
 
 ## 🏗️ Architecture du projet
 
-![Architecture](architecture.png)
+![architecture](architecture.png)
 
 > *Schéma de l'architecture du projet (pipeline complet)*
 
@@ -193,7 +193,7 @@ Les données scrappées contiennent : `name`, `price`, `category`, `source`, `ur
 
 ### Flux principal
 
-![Pipeline](pipeline.png)
+![pipeline](pipeline.png)
 
 > *Schéma du pipeline de données*
 
@@ -240,7 +240,7 @@ Le projet utilise **dbt (data build tool)** pour la transformation et la modéli
 
 Le graphique de lineage montre les dépendances entre les modèles, de la source brute jusqu'aux tables agrégées :
 
-![dbt lineage](airflow-dag.png)
+![lineage](airflow-dag.png)
 
 *Graphique de lineage dbt - stg_raw_prices → cleaned_prices → agg_daily_prices*
 
@@ -260,16 +260,6 @@ La table `cleaned_prices` documente l'ensemble des colonnes transformées :
 ![dbt docs](bigquery.png)
 
 *Documentation dbt - vue des colonnes et descriptions*
-
-### 🚀 Générer la documentation
-
-```bash
-cd dbt/ecommerce
-dbt docs generate
-dbt docs serve
-```
-
-Accès : `http://localhost:8080`
 
 ---
 
@@ -301,7 +291,7 @@ Accès : `http://localhost:8080`
 
 La heatmap ci-dessous visualise les prix moyens (en MAD) pour chaque combinaison plateforme-catégorie.
 
-![Heatmap](heatmapCorrelations.jpeg)
+![heatmap](heatmapCorrelations.jpeg)
 
 *Heatmap des prix moyens - plateforme vs catégorie*
 
@@ -309,7 +299,7 @@ La heatmap ci-dessous visualise les prix moyens (en MAD) pour chaque combinaison
 
 L'analyse de distribution montre comment les prix se répartissent sur chaque plateforme.
 
-![Distribution](destrubutionPrix.jpeg)
+![distribution](destrubutionPrix.jpeg)
 
 *Box plot de distribution des prix par plateforme*
 
@@ -317,13 +307,13 @@ L'analyse de distribution montre comment les prix se répartissent sur chaque pl
 
 Comparaison des prix moyens par plateforme.
 
-![Prix par plateforme](prixPlateforme.jpeg)
+![prix plateforme](prixPlateforme.jpeg)
 
 *Prix moyens par plateforme*
 
 ### ⏱️ Évolution temporelle des prix
 
-![Évolution](destrubutionTemp.jpeg)
+![evolution](destrubutionTemp.jpeg)
 
 *Évolution des prix dans le temps*
 
@@ -340,16 +330,16 @@ Le dashboard React (`frontend/`) expose :
 - **Statistiques descriptives** : mean, median, min, max, std
 - **Analyse par marque** : répartition et positionnement prix
 
-![Dashboard](dashboard.png)
+![dashboard](dashboard.png)
 *Capture d'écran du dashboard principal*
 
-![Live Prices](live-prices.png)
+![live-prices](live-prices.png)
 *Capture d'écran de la page Live Prices*
 
-![Alertes](alerts.png)
+![alerts](alerts.png)
 *Capture d'écran de la page Alertes*
 
-![Statistiques](statistics.png)
+![statistics](statistics.png)
 *Capture d'écran de la page Statistiques*
 
 Accès : `http://localhost:5173`
@@ -376,7 +366,7 @@ Services démarrés :
 | `backend` | 8001 | API FastAPI |
 | `frontend` | 5173 | Dashboard React |
 
-![Docker PS](docker-ps.png)
+![docker-ps](docker-ps.png)
 *Capture d'écran de `docker ps` montrant tous les conteneurs qui tournent*
 
 ### Cloud — GCP (Terraform)
@@ -414,7 +404,8 @@ push/PR → main
 3. docker-push — Build + push des images
 ```
 
-![GitHub Actions](github-actions.jpeg)
+![github-actions](github-actions.jpeg)
+
 *Capture d'écran du pipeline CI/CD GitHub Actions qui passe*
 
 Secrets requis : `GCP_SA_KEY`, `GCP_PROJECT_ID`
@@ -472,31 +463,19 @@ Les plateformes couvertes ciblent le marché marocain. Les prix sont en **MAD (D
 - `tv`
 - `vetements`
 
-![Scraping](nifi-flow.png)
+![scraping](nifi-flow.png)
 
 ---
 
 ## 📸 Captures d'écran
 
-### Apache Airflow - Orchestration des pipelines
-
-Airflow gère l'exécution quotidienne des tâches de scraping, transformation et qualité des données.
-
-![Airflow DAG](airflow-dag.png)
+![airflow dag](airflow-dag.png)
 *Le DAG Airflow avec toutes les tâches vertes*
 
-### Apache NiFi - Ingestion des données
+![nifi flow](nifi-flow.png)
+*Le flow NiFi*
 
-NiFi assure le streaming et l'ingestion des données en temps réel.
-
-![NiFi Flow](nifi-flow.png)
-*Le flow NiFi pour l'ingestion des données*
-
-### Google BigQuery - Entrepôt de données
-
-BigQuery stocke l'ensemble des données transformées et historisées.
-
-![BigQuery](bigquery.png)
+![bigquery](bigquery.png)
 *Les données dans BigQuery*
 
 ---
@@ -510,9 +489,7 @@ BigQuery stocke l'ensemble des données transformées et historisées.
 | **Data Engineer** | Salma Atanan | Scrapers, Kafka, NiFi, Airflow, Bigtable |
 | **Data Analyst** | Fatima Najim | dbt models, Statistiques descriptives & inférentielles |
 
-**Semestre 2 - Groupe Data Intelligence**
 
----
 
 ## 🎥 Application demo
 
