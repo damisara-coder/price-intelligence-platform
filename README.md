@@ -182,34 +182,7 @@ price-intelligence-platform/
 | **Marjane.ma** | Grande surface | Électronique | Requests + BeautifulSoup |
 
 Les données scrappées contiennent : `name`, `price`, `category`, `source`, `url`, `timestamp`.
-## 👥 Équipe projet
 
-| Rôle | Nom | Responsabilités |
-|------|-----|-----------------|
-| **Full Stack Developer** | Hakima fiach | API FastAPI, Frontend React, Dashboard, Streaming SSE |
-| **DevOps** | Sara Dami | Docker, CI/CD, Monitoring, Infrastructure |
-| **Data Engineer** | Salma Atanan | Scrapers, Kafka, NiFi, Airflow, Bigtable |
-| **Data Analyst** | Fatima Najim | dbt models, Statistiques descriptives & inférentielles |
-
----
-
-## 🔄 Pipeline de données
-
-### Flux principal
-
-> ![fluxPrincipal](image-6.png)
-> *Photo du pipeline de données (schéma du flux)*
-
-### DAGs Airflow
-
-| DAG | Schedule | Description |
-|-----|----------|-------------|
-| `daily_catalog_refresh` | `@daily` | Lit les JSON scrappés et les envoie vers Kafka |
-| `dbt_run` | `@daily` | Lance `dbt compile` + `dbt run` |
-| `data_quality` | `@daily` | Validation via Great Expectations |
-| `stats_notebook` | Manuel | Exécution des notebooks d'analyse |
-
----
 ## 📦 Données scrappées
 
 Les plateformes couvertes ciblent le marché marocain. Les prix sont en **MAD (Dirham marocain)**. Les catégories normalisées sont :
@@ -251,7 +224,36 @@ BigQuery stocke l'ensemble des données transformées et historisées.
 
 
 
+---
 
+## 👥 Équipe projet
+
+| Rôle | Nom | Responsabilités |
+|------|-----|-----------------|
+| **Full Stack Developer** | Hakima fiach | API FastAPI, Frontend React, Dashboard, Streaming SSE |
+| **DevOps** | Sara Dami | Docker, CI/CD, Monitoring, Infrastructure |
+| **Data Engineer** | Salma Atanan | Scrapers, Kafka, NiFi, Airflow, Bigtable |
+| **Data Analyst** | Fatima Najim | dbt models, Statistiques descriptives & inférentielles |
+
+---
+
+## 🔄 Pipeline de données
+
+### Flux principal
+
+> ![fluxPrincipal](image-6.png)
+> *Photo du pipeline de données (schéma du flux)*
+
+### DAGs Airflow
+
+| DAG | Schedule | Description |
+|-----|----------|-------------|
+| `daily_catalog_refresh` | `@daily` | Lit les JSON scrappés et les envoie vers Kafka |
+| `dbt_run` | `@daily` | Lance `dbt compile` + `dbt run` |
+| `data_quality` | `@daily` | Validation via Great Expectations |
+| `stats_notebook` | Manuel | Exécution des notebooks d'analyse |
+
+---
 ## 📚 Documentation dbt
 
 Le projet utilise **dbt (data build tool)** pour la transformation et la modélisation des données. La documentation complète des modèles est générée automatiquement.
@@ -305,6 +307,26 @@ Déduplique et enrichit :
 | `agg_weekly_category_stats` | Catégorie × Semaine × Plateforme | stats hebdo, évolution |
 
 ---
+
+## 🌐 API REST
+
+### Backend principal (`backend/main.py`) — Port **8001**
+
+| Endpoint | Méthode | Description |
+|----------|---------|-------------|
+| `/api/health` | GET | Santé de l'API |
+| `/api/kpis` | GET | KPIs globaux |
+| `/api/prices` | GET | Liste des prix avec filtres |
+| `/api/stats` | GET | Statistiques descriptives |
+| `/api/brands` | GET | Stats par marque |
+| `/api/alerts` | GET | Alertes de baisse de prix |
+| `/api/price-history` | GET | Historique des prix |
+| `/api/price-compare` | GET | Comparaison inter-plateformes |
+| `/api/stream/dashboard` | GET | **SSE** — Stream temps réel |
+| `/api/generate-alerts` | GET | Génération d'alertes |
+| `/api/stats/dynamic` | GET | Stats dynamiques |
+
+> Documentation Swagger : `http://localhost:8001/docs`
 
 
 
@@ -384,27 +406,81 @@ Accès : `http://localhost:5173`
 
 ---
 
-## 🌐 API REST
+## ☁️ Infrastructure & Déploiement
 
-### Backend principal (`backend/main.py`) — Port **8001**
+### Local — Docker Compose
 
-| Endpoint | Méthode | Description |
-|----------|---------|-------------|
-| `/api/health` | GET | Santé de l'API |
-| `/api/kpis` | GET | KPIs globaux |
-| `/api/prices` | GET | Liste des prix avec filtres |
-| `/api/stats` | GET | Statistiques descriptives |
-| `/api/brands` | GET | Stats par marque |
-| `/api/alerts` | GET | Alertes de baisse de prix |
-| `/api/price-history` | GET | Historique des prix |
-| `/api/price-compare` | GET | Comparaison inter-plateformes |
-| `/api/stream/dashboard` | GET | **SSE** — Stream temps réel |
-| `/api/generate-alerts` | GET | Génération d'alertes |
-| `/api/stats/dynamic` | GET | Stats dynamiques |
+```bash
+docker-compose up -d
+```
 
-> Documentation Swagger : `http://localhost:8001/docs`
+Services démarrés :
+
+| Service | Port | Description |
+|---------|------|-------------|
+| `zookeeper` | 2181 | Coordination Kafka |
+| `kafka` | 9092 | Broker de messages |
+| `nifi` | 8080 | Interface Apache NiFi |
+| `airflow-webserver` | 8081 | Interface Airflow |
+| `airflow-scheduler` | — | Planificateur Airflow |
+| `backend` | 8001 | API FastAPI |
+| `frontend` | 5173 | Dashboard React |
+
+>  ![docker ](<WhatsApp Image 2026-06-12 at 17.51.52.jpeg>)
+![doker](<WhatsApp Image 2026-06-12 at 17.52.38.jpeg>)
+> *Capture d'écran de `docker ps` montrant tous les containers qui tournent*
+
+### Cloud — GCP (Terraform)
+
+```bash
+cd infra/terraform
+terraform init
+terraform apply
+```
+
+Ressources provisionnées :
+- **Google BigQuery** — Dataset `ecommerce_prices`
+- **Google Artifact Registry** — Repository Docker
+
+### Production — Kubernetes
+
+Manifests disponibles dans `infra/k8s/`
+
+---
 
 
+## ⚙️ CI/CD
+
+Pipeline GitHub Actions (`.github/workflows/ci.yml`) :
+
+```
+push/PR → main
+    │
+    ▼
+1. lint        — flake8
+    │
+    ▼
+2. dbt-test    — dbt compile
+    │
+    ▼
+3. docker-push — Build + push des images
+```
+
+> ![ci\cd](<WhatsApp Image 2026-06-12 at 17.43.41.jpeg>)
+> *Capture d'écran du pipeline CI/CD GitHub Actions qui passe*
+
+Secrets requis : `GCP_SA_KEY`, `GCP_PROJECT_ID`
+
+---
+
+## 🚀 Démarrage rapide
+
+### Prérequis
+
+- Docker & Docker Compose
+- Python 3.11+
+- Node.js 18+
+- Compte GCP (optionnel)
 
 ### Installation locale
 
