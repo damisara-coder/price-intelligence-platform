@@ -308,27 +308,6 @@ Déduplique et enrichit :
 
 ---
 
-## 🌐 API REST
-
-### Backend principal (`backend/main.py`) — Port **8001**
-
-| Endpoint | Méthode | Description |
-|----------|---------|-------------|
-| `/api/health` | GET | Santé de l'API |
-| `/api/kpis` | GET | KPIs globaux |
-| `/api/prices` | GET | Liste des prix avec filtres |
-| `/api/stats` | GET | Statistiques descriptives |
-| `/api/brands` | GET | Stats par marque |
-| `/api/alerts` | GET | Alertes de baisse de prix |
-| `/api/price-history` | GET | Historique des prix |
-| `/api/price-compare` | GET | Comparaison inter-plateformes |
-| `/api/stream/dashboard` | GET | **SSE** — Stream temps réel |
-| `/api/generate-alerts` | GET | Génération d'alertes |
-| `/api/stats/dynamic` | GET | Stats dynamiques |
-
-> Documentation Swagger : `http://localhost:8001/docs`
-
-
 
 
 
@@ -448,6 +427,27 @@ Manifests disponibles dans `infra/k8s/`
 
 ---
 
+## 🌐 API REST
+
+### Backend principal (`backend/main.py`) — Port **8001**
+
+| Endpoint | Méthode | Description |
+|----------|---------|-------------|
+| `/api/health` | GET | Santé de l'API |
+| `/api/kpis` | GET | KPIs globaux |
+| `/api/prices` | GET | Liste des prix avec filtres |
+| `/api/stats` | GET | Statistiques descriptives |
+| `/api/brands` | GET | Stats par marque |
+| `/api/alerts` | GET | Alertes de baisse de prix |
+| `/api/price-history` | GET | Historique des prix |
+| `/api/price-compare` | GET | Comparaison inter-plateformes |
+| `/api/stream/dashboard` | GET | **SSE** — Stream temps réel |
+| `/api/generate-alerts` | GET | Génération d'alertes |
+| `/api/stats/dynamic` | GET | Stats dynamiques |
+
+> Documentation Swagger : `http://localhost:8001/docs`
+
+
 
 ## ⚙️ CI/CD
 
@@ -531,3 +531,14 @@ npm run dev
 - Détection des alertes de baisse
 - Filtrage par plateforme et catégorie
 - Graphiques interactifs
+## 👥 Équipe projet
+
+| Nom | Rôle | Responsabilités |
+|-----|------|-----------------|
+| **Hakima fiach** | Full Stack Developer | API FastAPI, Frontend React, Dashboard, Streaming SSE |
+| **Dami Sara** | DevOps | Docker, CI/CD, Monitoring, Infrastructure |
+| **Salma Atanan** | Data Engineer | Scrapers, Kafka, NiFi, Airflow, Bigtable |
+| **Fatima Najim** | Data Analyst | dbt models, Statistiques descriptives & inférentielles |
+| **Pr. Lotfi EL AACHAK** | Encadrant | Supervision du projet, validation de l'architecture |
+
+**Semestre 2 - Groupe Data Intelligence**
