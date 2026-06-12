@@ -1,4 +1,6 @@
+## ✅ **VOICI TON README CORRIGÉ AVEC LES BONS CHEMINS**
 
+```markdown
 # 🏷️ Price Intelligence Platform
 
 [![Python](https://img.shields.io/badge/Python-3.11-blue)](https://www.python.org/)
@@ -228,6 +230,16 @@ Déduplique et enrichit :
 | `agg_daily_prices` | Produit × Jour | avg, min, max, std |
 | `agg_weekly_category_stats` | Catégorie × Semaine × Plateforme | stats hebdo, évolution |
 
+### 📚 Documentation dbt
+
+Le projet utilise **dbt (data build tool)** pour la transformation et la modélisation des données.
+
+![dbt Lineage](screenshots/airflow-dag.png)
+*Graphique de lineage dbt*
+
+![dbt Docs](screenshots/bigquery.png)
+*Documentation dbt - vue des colonnes*
+
 ---
 
 ## 🌐 API REST
@@ -276,6 +288,20 @@ Le dashboard React (`frontend/`) expose :
 *Capture d'écran de la page Statistiques*
 
 Accès : `http://localhost:5173`
+
+---
+
+## 📊 Analyses avancées
+
+### Heatmap des prix
+
+![Heatmap](screenshots/bigquery.png)
+*Heatmap des prix moyens par catégorie et plateforme*
+
+### Distribution des prix
+
+![Distribution](screenshots/statistics.png)
+*Distribution des prix par plateforme*
 
 ---
 
@@ -419,62 +445,7 @@ Les plateformes couvertes ciblent le marché marocain. Les prix sont en **MAD (D
 | **Data Engineer** | Salma Atanan | Scrapers, Kafka, NiFi, Airflow, Bigtable |
 | **Data Analyst** | Fatima Najim | dbt models, Statistiques descriptives & inférentielles |
 
-## 📚 Documentation dbt
 
-Le projet utilise **dbt (data build tool)** pour la transformation et la modélisation des données. La documentation complète des modèles est générée automatiquement.
-
-### 📊 Lineage des données
-
-Le graphique de lineage montre les dépendances entre les modèles, de la source brute jusqu'aux tables agrégées :
-
-![dbt Lineage](screenshots/dbt-lineage.png)
-
-*Graphique de lineage dbt - stg_raw_prices → cleaned_prices → agg_daily_prices*
-
-### 📋 Modèles principaux
-
-| Modèle | Description | Tests |
-|--------|-------------|-------|
-| **stg_raw_prices** | Nettoyage et typage des données brutes | `not_null`, `unique`, `accepted_values` |
-| **cleaned_prices** | Déduplication et enrichissement | `not_null`, `unique` |
-| **agg_daily_prices** | Agrégations journalières par produit | `relationships` |
-| **agg_weekly_category_stats** | Statistiques hebdomadaires | `dbt_utils.unique_combination_of_columns` |
-
-### 📄 Documentation des colonnes
-
-La table `cleaned_prices` documente l'ensemble des colonnes transformées :
-
-![dbt Docs](screenshots/dbt-docs.png)
-
-*Documentation dbt - vue des colonnes et descriptions*
-
-| Colonne | Type | Description |
-|---------|------|-------------|
-| `row_key` | STRING | Clé primaire héritée du staging |
-| `product_name` | STRING | Nom du produit |
-| `price_mad` | FLOAT64 | Prix en MAD, nettoyé (outliers exclus) |
-| `category_normalized` | STRING | Catégorie normalisée |
-| `source_platform` | STRING | Plateforme e-commerce source |
-| `scraped_at` | TIMESTAMP | Date et heure du scraping |
-| `price_date` | DATE | Date d'observation du prix |
-
-### ✅ Résultats des tests
-
-Les tests de qualité vérifient l'intégrité des données après chaque transformation.
-
-| Test | Statut |
-|------|--------|
-| `not_null` | ✅ PASS |
-| `unique` | ✅ PASS |
-| `accepted_values` | ✅ PASS |
-| `relationships` | ✅ PASS |
-
-### 🚀 Générer la documentation
-
-```bash
-cd dbt/ecommerce
-dbt docs generate
-dbt docs serve
 
 ---
 
@@ -494,17 +465,4 @@ dbt docs serve
 
 ---
 
-## 🚀 **MAINTENANT, POUSSE LES CORRECTIONS**
-
-```powershell
-cd C:\Users\admin\Downloads\price-intelligence-platform
-
-# Remplacer le README
-# Copie-colle le contenu corrigé ci-dessus dans README.md
-
-# Pousser
-git add README.md
-git commit -m "fix: correct all image paths in README"
-git push origin main
-```
 
