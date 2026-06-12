@@ -202,34 +202,25 @@ Les données scrappées contiennent : `name`, `price`, `category`, `source`, `ur
 | `stats_notebook` | Manuel | Exécution des notebooks d'analyse |
 
 ---
-## 📚 Documentation dbt
+##  Documentation dbt
 
 Le projet utilise **dbt (data build tool)** pour la transformation et la modélisation des données. La documentation complète des modèles est générée automatiquement.
 
-### 📊 Lineage des données
+###  Lineage des données
 
 Le graphique de lineage montre les dépendances entre les modèles, de la source brute jusqu'aux tables agrégées :
 
-![lineage](<WhatsApp Image 2026-06-12 at 19.26.01.jpeg>)
+![lineage](image-18.png)
+
 *Graphique de lineage dbt - stg_raw_prices → cleaned_prices → agg_daily_prices*
-
-### 📋 Modèles principaux
-
-| Modèle | Description | Tests |
-|--------|-------------|-------|
-| **stg_raw_prices** | Nettoyage et typage des données brutes | `not_null`, `unique`, `accepted_values` |
-| **cleaned_prices** | Déduplication et enrichissement | `not_null`, `unique` |
-| **agg_daily_prices** | Agrégations journalières par produit | `relationships` |
-| **agg_weekly_category_stats** | Statistiques hebdomadaires | `dbt_utils.unique_combination_of_columns` |
 
 ### 📄 Documentation des colonnes
 
 La table `cleaned_prices` documente l'ensemble des colonnes transformées :
 
-![dbt](<WhatsApp Image 2026-06-12 at 19.28.49.jpeg>)
+![dbt](image-19.png)
 
 *Documentation dbt - vue des colonnes et descriptions*
-
 
 
 ## 🧮 Modèles dbt
@@ -279,11 +270,11 @@ Déduplique et enrichit :
 ---
 ## 📈 Analyses avancées des prix
 
-###  Heatmap des prix moyens par plateforme et catégorie
+### 🔥 Heatmap des prix moyens par plateforme et catégorie
 
 La heatmap ci-dessous visualise les prix moyens (en MAD) pour chaque combinaison plateforme-catégorie. Les couleurs les plus claires indiquent les prix les plus élevés, permettant d'identifier rapidement les segments de marché les plus chers.
 
-![heatmap](<WhatsApp Image 2026-06-12 at 19.51.57.jpeg>)
+![heatmap](image-15.png)
 
 *Heatmap des prix moyens - plateforme vs catégorie*
 
@@ -296,7 +287,7 @@ L'analyse de distribution montre comment les prix se répartissent sur chaque pl
 - **Zara** maintient des prix homogènes sur la catégorie vêtements
 - **Marjane** occupe une position intermédiaire sur l'électronique
 
-![destribution](<WhatsApp Image 2026-06-12 at 19.51.57-1.jpeg>)
+![distribution](image-16.png)
 
 *Box plot de distribution des prix par plateforme*
 
@@ -304,7 +295,7 @@ L'analyse de distribution montre comment les prix se répartissent sur chaque pl
 
 Le dashboard intègre un flux SSE (Server-Sent Events) qui met à jour les prix en direct toutes les 5 secondes. Les variations sont basées sur les données réelles des scrapers.
 
-![prix](<WhatsApp Image 2026-06-12 at 19.51.57-2.jpeg>)
+![prix](image-17.png)
 
 *Streaming des prix en temps réel*
 ## 📊 Dashboard
