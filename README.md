@@ -202,6 +202,35 @@ Les données scrappées contiennent : `name`, `price`, `category`, `source`, `ur
 | `stats_notebook` | Manuel | Exécution des notebooks d'analyse |
 
 ---
+## 📚 Documentation dbt
+
+Le projet utilise **dbt (data build tool)** pour la transformation et la modélisation des données. La documentation complète des modèles est générée automatiquement.
+
+### 📊 Lineage des données
+
+Le graphique de lineage montre les dépendances entre les modèles, de la source brute jusqu'aux tables agrégées :
+
+![lineage](<WhatsApp Image 2026-06-12 at 19.26.01.jpeg>)
+*Graphique de lineage dbt - stg_raw_prices → cleaned_prices → agg_daily_prices*
+
+### 📋 Modèles principaux
+
+| Modèle | Description | Tests |
+|--------|-------------|-------|
+| **stg_raw_prices** | Nettoyage et typage des données brutes | `not_null`, `unique`, `accepted_values` |
+| **cleaned_prices** | Déduplication et enrichissement | `not_null`, `unique` |
+| **agg_daily_prices** | Agrégations journalières par produit | `relationships` |
+| **agg_weekly_category_stats** | Statistiques hebdomadaires | `dbt_utils.unique_combination_of_columns` |
+
+### 📄 Documentation des colonnes
+
+La table `cleaned_prices` documente l'ensemble des colonnes transformées :
+
+![dbt](<WhatsApp Image 2026-06-12 at 19.28.49.jpeg>)
+
+*Documentation dbt - vue des colonnes et descriptions*
+
+
 
 ## 🧮 Modèles dbt
 
@@ -248,7 +277,36 @@ Déduplique et enrichit :
 > Documentation Swagger : `http://localhost:8001/docs`
 
 ---
+## 📈 Analyses avancées des prix
 
+###  Heatmap des prix moyens par plateforme et catégorie
+
+La heatmap ci-dessous visualise les prix moyens (en MAD) pour chaque combinaison plateforme-catégorie. Les couleurs les plus claires indiquent les prix les plus élevés, permettant d'identifier rapidement les segments de marché les plus chers.
+
+![heatmap](<WhatsApp Image 2026-06-12 at 19.51.57.jpeg>)
+
+*Heatmap des prix moyens - plateforme vs catégorie*
+
+### 📊 Distribution réelle des prix
+
+L'analyse de distribution montre comment les prix se répartissent sur chaque plateforme. On observe que :
+
+- **Jumia** présente la plus large gamme de prix, avec une forte concentration sur les produits économiques
+- **Micromagma** se positionne sur le segment premium avec des prix médians plus élevés
+- **Zara** maintient des prix homogènes sur la catégorie vêtements
+- **Marjane** occupe une position intermédiaire sur l'électronique
+
+![destribution](<WhatsApp Image 2026-06-12 at 19.51.57-1.jpeg>)
+
+*Box plot de distribution des prix par plateforme*
+
+### 📉 Prix en temps réel (Streaming SSE)
+
+Le dashboard intègre un flux SSE (Server-Sent Events) qui met à jour les prix en direct toutes les 5 secondes. Les variations sont basées sur les données réelles des scrapers.
+
+![prix](<WhatsApp Image 2026-06-12 at 19.51.57-2.jpeg>)
+
+*Streaming des prix en temps réel*
 ## 📊 Dashboard
 
 Le dashboard React (`frontend/`) expose :
@@ -260,16 +318,16 @@ Le dashboard React (`frontend/`) expose :
 - **Statistiques descriptives** : mean, median, min, max, std
 - **Analyse par marque** : répartition et positionnement prix
 
-> **📸 AJOUTER ICI UNE PHOTO : ![dashbord](dashboard.png)
+> ![dashbord](dashboard.png)
 > *Capture d'écran du dashboard principal*
 
-> **📸 AJOUTER ICI UNE PHOTO :![livePrice](live-prices.png)  
+> ![livePrice](live-prices.png)  
 > *Capture d'écran de la page Live Prices*
 
-> **📸 AJOUTER ICI UNE PHOTO : ![Alrets](alerts.png) 
+>  ![Alrets](alerts.png) 
 > *Capture d'écran de la page Alertes*
 
-> **📸 AJOUTER ICI UNE PHOTO : ![statistics](statistics.png)  
+> ![statistics](statistics.png)  
 > *Capture d'écran de la page Statistiques*
 
 Accès : `http://localhost:5173`
@@ -296,7 +354,7 @@ Services démarrés :
 | `backend` | 8001 | API FastAPI |
 | `frontend` | 5173 | Dashboard React |
 
-> **📸 AJOUTER ICI UNE PHOTO : ![docker ](<WhatsApp Image 2026-06-12 at 17.51.52.jpeg>)
+>  ![docker ](<WhatsApp Image 2026-06-12 at 17.51.52.jpeg>)
 ![doker](<WhatsApp Image 2026-06-12 at 17.52.38.jpeg>)
 > *Capture d'écran de `docker ps` montrant tous les containers qui tournent*
 
@@ -336,7 +394,7 @@ push/PR → main
 3. docker-push — Build + push des images
 ```
 
-> **📸 AJOUTER ICI UNE PHOTO : ![ci\cd](<WhatsApp Image 2026-06-12 at 17.43.41.jpeg>)
+> ![ci\cd](<WhatsApp Image 2026-06-12 at 17.43.41.jpeg>)
 > *Capture d'écran du pipeline CI/CD GitHub Actions qui passe*
 
 Secrets requis : `GCP_SA_KEY`, `GCP_PROJECT_ID`
@@ -399,13 +457,13 @@ Les plateformes couvertes ciblent le marché marocain. Les prix sont en **MAD (D
 ## 📸 Captures d'écran
 
 
-> **📸 AJOUTER ICI UNE PHOTO :![airflow](image-8.png) ![airflow](image-9.png)![airflow](image-10.png)
+> ![airflow](image-8.png) ![airflow](image-9.png)![airflow](image-10.png)
 > *Le DAG Airflow avec toutes les tâches vertes*
 
-> **📸 AJOUTER ICI UNE PHOTO : ![nifi](image-11.png)
+>  ![nifi](image-11.png)
 > *Le flow NiFi*
 
-> **📸 AJOUTER ICI UNE PHOTO : ![bigquery](image-12.png) ![bigquery](image-13.png)![intstance](image-14.png)
+>  ![bigquery](image-12.png) ![bigquery](image-13.png)![intstance](image-14.png)
 > *Les lignes dans BigQuery*
 
 
