@@ -296,15 +296,14 @@ L'analyse de distribution montre comment les prix se répartissent sur chaque pl
 - **Zara** maintient des prix homogènes sur la catégorie vêtements
 - **Marjane** occupe une position intermédiaire sur l'électronique
 
-![destribution](<WhatsApp Image 2026-06-12 at 19.51.57-1.jpeg>)
+![prix](<WhatsApp Image 2026-06-12 at 19.46.44.jpeg>)
 
 *Box plot de distribution des prix par plateforme*
 
 ### 📉 Prix en temps réel (Streaming SSE)
 
 Le dashboard intègre un flux SSE (Server-Sent Events) qui met à jour les prix en direct toutes les 5 secondes. Les variations sont basées sur les données réelles des scrapers.
-
-![prix](<WhatsApp Image 2026-06-12 at 19.51.57-2.jpeg>)
+![prixTemp](<WhatsApp Image 2026-06-12 at 19.52.18 (1).jpeg>)
 
 *Streaming des prix en temps réel*
 ## 📊 Dashboard
@@ -457,32 +456,18 @@ Les plateformes couvertes ciblent le marché marocain. Les prix sont en **MAD (D
 Apache Airflow - Orchestration des pipelines
 Airflow gère l'exécution quotidienne des tâches de scraping, transformation et qualité des données.
 
-https://airflow-dag.png
-
-Le DAG Airflow avec toutes les tâches vertes, indiquant le succès des exécutions
+> ![airflow](image-8.png) ![airflow](image-9.png)![airflow](image-10.png)
+> *Le DAG Airflow avec toutes les tâches vertes*
+ttps://airflow-dag.png
 
 Apache NiFi - Ingestion des données
 NiFi assure le streaming et l'ingestion des données en temps réel.
 
-https://nifi-flow.png
-
-Le flow NiFi pour l'ingestion et le routage des données
-
-Google BigQuery - Entrepôt de données
-BigQuery stocke l'ensemble des données transformées et historisées.
-
-https://bigquery.png
-
-Les données dans BigQuery - aperçu des tables et du volume de données
-
-
-
-
-> ![airflow](image-8.png) ![airflow](image-9.png)![airflow](image-10.png)
-> *Le DAG Airflow avec toutes les tâches vertes*
-
 >  ![nifi](image-11.png)
 > *Le flow NiFi*
+ 
+ Google BigQuery - Entrepôt de données
+BigQuery stocke l'ensemble des données transformées et historisées.
 
 >  ![bigquery](image-12.png) ![bigquery](image-13.png)![intstance](image-14.png)
 > *Les lignes dans BigQuery*
