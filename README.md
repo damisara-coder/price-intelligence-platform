@@ -276,16 +276,9 @@ Déduplique et enrichit :
 
 > Documentation Swagger : `http://localhost:8001/docs`
 
----
-## 📈 Analyses avancées des prix
 
-###  Heatmap des prix moyens par plateforme et catégorie
 
-La heatmap ci-dessous visualise les prix moyens (en MAD) pour chaque combinaison plateforme-catégorie. Les couleurs les plus claires indiquent les prix les plus élevés, permettant d'identifier rapidement les segments de marché les plus chers.
 
-![heatmap](<WhatsApp Image 2026-06-12 at 19.51.57.jpeg>)
-
-*Heatmap des prix moyens - plateforme vs catégorie*
 
 ## 📈 Analyses avancées des prix
 
