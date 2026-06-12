@@ -287,6 +287,16 @@ La heatmap ci-dessous visualise les prix moyens (en MAD) pour chaque combinaison
 
 *Heatmap des prix moyens - plateforme vs catégorie*
 
+## 📈 Analyses avancées des prix
+
+### 🔥 Heatmap des prix moyens par plateforme et catégorie
+
+La heatmap ci-dessous visualise les prix moyens (en MAD) pour chaque combinaison plateforme-catégorie.
+
+![Heatmap](heatmapCorrelations.jpeg)
+
+*Heatmap des prix moyens - plateforme vs catégorie*
+
 ### 📊 Distribution réelle des prix
 
 L'analyse de distribution montre comment les prix se répartissent sur chaque plateforme. On observe que :
@@ -296,16 +306,27 @@ L'analyse de distribution montre comment les prix se répartissent sur chaque pl
 - **Zara** maintient des prix homogènes sur la catégorie vêtements
 - **Marjane** occupe une position intermédiaire sur l'électronique
 
-![prix](<WhatsApp Image 2026-06-12 at 19.46.44.jpeg>)
+![Distribution des prix](destrubutionPrix.jpeg)
 
 *Box plot de distribution des prix par plateforme*
 
-### 📉 Prix en temps réel (Streaming SSE)
+### 📉 Prix par plateforme
 
-Le dashboard intègre un flux SSE (Server-Sent Events) qui met à jour les prix en direct toutes les 5 secondes. Les variations sont basées sur les données réelles des scrapers.
-![prixTemp](<WhatsApp Image 2026-06-12 at 19.52.18 (1).jpeg>)
+Comparaison des prix moyens entre les différentes plateformes.
+
+![Prix par plateforme](prixPlateforme.jpeg)
+
+*Graphique comparatif des prix moyens par plateforme*
+
+### ⏱️ Évolution temporelle des prix (Streaming SSE)
+
+Le dashboard intègre un flux SSE (Server-Sent Events) qui met à jour les prix en direct toutes les 5 secondes.
+
+![Évolution temporelle](destrubutionTemp.jpeg)
 
 *Streaming des prix en temps réel*
+
+
 ## 📊 Dashboard
 
 Le dashboard React (`frontend/`) expose :
@@ -320,11 +341,18 @@ Le dashboard React (`frontend/`) expose :
 > ![dashbord](dashboard.png)
 > *Capture d'écran du dashboard principal*
 
+
+
+
 > ![livePrice](live-prices.png)  
 > *Capture d'écran de la page Live Prices*
 
+
+
 >  ![Alrets](alerts.png) 
 > *Capture d'écran de la page Alertes*
+
+
 
 > ![statistics](statistics.png)  
 > *Capture d'écran de la page Statistiques*
@@ -460,11 +488,20 @@ Airflow gère l'exécution quotidienne des tâches de scraping, transformation e
 > *Le DAG Airflow avec toutes les tâches vertes*
 ttps://airflow-dag.png
 
+
+
+
+
+
 Apache NiFi - Ingestion des données
 NiFi assure le streaming et l'ingestion des données en temps réel.
 
 >  ![nifi](image-11.png)
 > *Le flow NiFi*
+
+
+
+
  
  Google BigQuery - Entrepôt de données
 BigQuery stocke l'ensemble des données transformées et historisées.
